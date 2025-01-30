@@ -1,30 +1,52 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <navbar></navbar>
+
+  <main class="app">
+    <router-view></router-view>
+  </main>
+
+  <bottom></bottom>
 </template>
 
+<script>
+import Navbar from "@/components/navbar/Navbar.vue";
+import Bottom from "@/components/footer/Bottom.vue";
+
+export default {
+  components: {
+    Navbar,
+    Bottom
+  }
+}
+
+</script>
+
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%; /* Убедимся, что высота body и html занимают всю высоту окна */
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  display: flex;
+  flex-direction: column; /* Flexbox на корневом элементе */
+  min-height: 100vh; /* Высота в 100% от высоты экрана */
 }
 
-nav {
-  padding: 30px;
+.app {
+  padding: 20px;
+  flex: 1; /* Основной контент занимает оставшееся пространство */
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.footer {
+  margin-top: auto; /* Сдвигает футер вниз */
+  background-color: #f8f9fa;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

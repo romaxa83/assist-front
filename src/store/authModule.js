@@ -1,4 +1,5 @@
 import axios from "@/services/axios";
+import router from '@/router'; // Импорт глобального маршрутизатора
 
 
 const state = {
@@ -61,10 +62,12 @@ const actions = {
             // очищаем хранилище
             commit("SET_AUTH_TOKEN", null);
             commit("SET_USER", null);
+
+            // Редирект на главную страницу
+            router.push('/');
         }
     },
-
-
+    
     restoreSession({ commit }) {
         // Восстанавливаем токен и данные пользователя, если они есть в localStorage
         const token = localStorage.getItem('authToken');

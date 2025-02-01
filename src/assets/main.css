@@ -1,1 +1,13 @@
 @import 'bootstrap/dist/css/bootstrap.css';
+
+@import 'bootstrap/dist/css/bootstrap.css';
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.15rem rgb(23, 43, 58); /* Новый цвет тени */
+    border-color: #172b3a; /* Новый цвет рамки */
+}

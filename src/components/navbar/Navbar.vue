@@ -26,7 +26,9 @@
                 <li>
                   <router-link class="dropdown-item" to="/admin/tags">Tags</router-link>
                 </li>
-                <li><a class="dropdown-item" href="#">Notes</a></li>
+                <li>
+                  <router-link class="dropdown-item" to="/admin/notes">Notes</router-link>
+                </li>
               </ul>
           </li>
         </ul>

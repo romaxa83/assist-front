@@ -1,7 +1,7 @@
 <template>
   <button
-      type="button"
-      class="btn btn-warning"
+      :type="type"
+      :class="classCustom"
   >
     <slot></slot>
   </button>
@@ -9,7 +9,17 @@
 
 <script>
 export default {
-  name: "CustomButton"
+  name: "CustomButton",
+  props: {
+    type: {
+      type: String,
+      default: "button"
+    },
+    classCustom: {
+      type: String,
+      default: "btn btn-warning"
+    }
+  }
 }
 </script>
 

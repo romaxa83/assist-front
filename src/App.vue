@@ -49,4 +49,35 @@ html {
   background-color: #f8f9fa;
 }
 
+/* Стили для активных и наведённых dropdown-item */
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item:active,
+.dropdown-item.active {
+  background-color: #ffbf12 !important;
+  color: black !important;
+}
+
+/* Фиксируем ширину колонки Action */
+.actions-column {
+  width: 100px;
+}
+
+/* Кнопки с иконками */
+.actions-column .btn i {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* Делаем тёмный цвет иконок */
+.actions-column .btn i {
+  color: #333;
+}
+
+/* Минимальный отступ между кнопками */
+.actions-column .btn {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
 </style>

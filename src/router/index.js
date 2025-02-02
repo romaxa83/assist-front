@@ -4,6 +4,8 @@ import store from '@/store';
 import MainPage from "@/pages/MainPage.vue";
 import NotePage from "@/pages/notes/NotePage.vue";
 import AdminTagsPage from "@/pages/admin/tags/TagsPage.vue";
+import AdminNotesPage from "@/pages/admin/notes/NotesPage.vue";
+import AdminNoteCreatePage from "@/pages/admin/notes/NoteCreatePage.vue";
 import NotFoundPage from "@/pages/error/NotFoundPage.vue";
 
 
@@ -15,6 +17,18 @@ const routes = [
     path: '/admin/tags',
     name: 'admin-tags',
     component: AdminTagsPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/notes',
+    name: 'admin-notes',
+    component: AdminNotesPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/notes/create',
+    name: 'admin-notes-create',
+    component: AdminNoteCreatePage,
     meta: { requiresAuth: true }
   },
   // Маршрут для страницы 404
@@ -31,7 +45,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // Проверяем, требует ли маршрут авторизации, используя vuex
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const isAuthenticated = store.state.authToken;
+    const isAuthenticated = store.state.auth.authToken;
+
+    // console.log('isAuthenticated', store.state.auth.authToken);
     if (!isAuthenticated) {
       // Если пользователь не авторизован, перенаправляем на стр. 404
       return next({

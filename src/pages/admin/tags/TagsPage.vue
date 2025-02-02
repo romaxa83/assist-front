@@ -108,53 +108,13 @@
         </div>
 
 
-        <div class="bd-example">
-          <table class="table table-hover">
-            <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Slug</th>
-              <th scope="col">Weight</th>
-              <th scope="col" class="text-center actions-column">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr
-                v-for="tag in tags"
-                :key="tag.id"
-                :tag="tag"
-                class="table-warning"
-            >
-              <th scope="row">{{ tag.id }}</th>
-              <td>{{ tag.name }}</td>
-              <td>{{ tag.slug }}</td>
-              <td>{{ tag.weight }}</td>
-              <td class="d-flex justify-content-end">
-                <!-- Кнопка редактирования -->
-                <button
-                    class="btn btn-sm btn-warning me-2"
-                    title="Edit"
-                    @click="editTag(tag)"
-                >
-                  <i class="fa-solid fa-pen" style="color: #333;"></i>
-                </button>
-
-                <!-- Кнопка удаления -->
-                <button
-                    class="btn btn-sm btn-warning"
-                    title="Delete"
-                    @click="openDeleteModal(tag.id)"
-                >
-                  <i class="fa-solid fa-trash" style="color: #333;"></i>
-                </button>
-              </td>
-
-            </tr>
-
-            </tbody>
-          </table>
+        <!-- Table -->
+        <div>
+          <tag-table
+              :tags="tags"
+              @remove="handleRemove"
+              @edit="handlerEdit"
+          />
         </div>
 
         <div class="row mb-2">
@@ -177,10 +137,12 @@ import CustomButton from "@/components/ui/CustomButton.vue";
 import CustomInput from "@/components/ui/CustomInput.vue";
 import axios from "axios";
 import * as bootstrap from "bootstrap/dist/js/bootstrap.bundle";
+import TagTable from "@/components/tags/table/TagTable.vue";
 
 export default {
   name: "TagsPage",
   components: {
+    TagTable,
     CustomButton,
     CustomInput,
     TagItem
@@ -221,6 +183,27 @@ export default {
   },
 
   methods: {
+
+    handleRemove(tag) {
+      this.tagToDelete = tag;
+
+      // Открываем модальное окно удаления
+      const modal = new bootstrap.Modal(document.getElementById('deleteTagModal'));
+      modal.show();
+    },
+    handlerEdit(tag) {
+      // Заполняем данные для редактирования
+      this.tag.id = tag.id;
+      this.tag.name = tag.name;
+
+      // Включаем режим редактирования
+      this.isEditMode = true;
+
+      // Открываем модальное окно
+      const modal = new bootstrap.Modal(document.getElementById('createTagModal'));
+      modal.show();
+    },
+
     async sendTag() {
 
       try {
@@ -271,24 +254,6 @@ export default {
 
     },
 
-    editTag(tag) {
-      // Заполняем данные для редактирования
-      this.tag.id = tag.id;
-      this.tag.name = tag.name;
-
-      // Включаем режим редактирования
-      this.isEditMode = true;
-
-      // Открываем модальное окно
-      const modal = new bootstrap.Modal(document.getElementById('createTagModal'));
-      modal.show();
-    },
-
-    openDeleteModal(tagId) {
-      this.tagToDelete = tagId; // Сохраняем ID тега
-      const modal = new bootstrap.Modal(document.getElementById('deleteTagModal'));
-      modal.show(); // Показываем модалку
-    },
 
     async confirmDelete() {
 
@@ -297,13 +262,13 @@ export default {
       try {
         const token = localStorage.getItem('authToken');
         const response = await axios.delete(
-            `http://192.168.193.1/api/tags/${this.tagToDelete}`,
+            `http://192.168.193.1/api/tags/${this.tagToDelete.id}`,
             {headers: {Authorization: `Bearer ${token}`,}}
         );
 
         if(response.status === 204){
           // Удаляем тег из списка tags
-          this.tags = this.tags.filter(tag => tag.id !== this.tagToDelete);
+          this.tags = this.tags.filter(tag => tag.id !== this.tagToDelete.id);
           this.tagToDelete = null;
         }
 
@@ -357,25 +322,5 @@ export default {
 </script>
 
 <style scoped>
-  /* Фиксируем ширину колонки Action */
-.actions-column {
-  width: 100px;
-}
 
-/* Кнопки с иконками */
-.actions-column .btn i {
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-/* Делаем тёмный цвет иконок */
-.actions-column .btn i {
-  color: #333;
-}
-
-/* Минимальный отступ между кнопками */
-.actions-column .btn {
-  padding: 4px 8px;
-  border-radius: 4px;
-}
 </style>

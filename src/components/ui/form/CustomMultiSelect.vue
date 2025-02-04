@@ -18,7 +18,6 @@
 
 <script>
 import Multiselect from "@vueform/multiselect";
-import "@vueform/multiselect/themes/default.css";
 
 export default {
   name: "CustomMultiSelect",
@@ -73,23 +72,6 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Стилизация */
-.custom-select-container {
-  margin: 20px 0;
-  font-family: Arial, sans-serif;
-}
+<style>
 
-.multiselect {
-  --multiselect-border-color: #ddd;
-  --multiselect-bg: #fff;
-  --multiselect-hover-bg: #f5f5f5;
-  --multiselect-tag-bg: #d1e7dd;
-  --multiselect-tag-color: #0f5132;
-  --multiselect-active-border: rgba(0, 123, 255, 0.25);
-}
-
-.multiselect-list li:hover {
-  background-color: var(--multiselect-hover-bg);
-}
 </style>

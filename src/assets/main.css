@@ -1,5 +1,7 @@
 @import 'bootstrap/dist/css/bootstrap.css';
-/*@import 'quill/dist/quill.snow.css';*/
+@import "@vueform/multiselect/themes/default.css";
+@import '@fortawesome/fontawesome-free/css/all.css';
+@import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 
 input:focus,
@@ -11,6 +13,36 @@ select:focus,
     box-shadow: 0 0 0 0.15rem rgb(23, 43, 58); /* Новый цвет тени */
     border-color: #172b3a; /* Новый цвет рамки */
 }
+
+
+/* ---------------------------------------------------------------- */
+/* Переопределение стилей для select из пакета @vueform/multiselect */
+.custom-select-container {
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.multiselect {
+    --multiselect-border-color: #ddd;
+    --multiselect-bg: #fff;
+    --multiselect-hover-bg: #f5f5f5;
+    --multiselect-tag-bg: #d1e7dd;
+    --multiselect-tag-color: #0f5132;
+    --multiselect-active-border: rgba(0, 123, 255, 0.25);
+}
+
+.multiselect-list li:hover {
+    background-color: var(--multiselect-hover-bg);
+}
+.multiselect-tag {
+    background-color: #ffbf12;
+    color: #333; /* Темный текст */
+    border-radius: 4px; /* Закругленные края (необязательно) */
+    padding: 2px 8px; /* Отступы внутри */
+    display: inline-flex;
+    align-items: center; /* Вертикальное выравнивание содержимого */
+}
+/* ---------------------------------------------------------------- */
 
 /* -- Стили для Quill -- */
 

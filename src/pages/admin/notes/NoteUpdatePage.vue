@@ -10,7 +10,6 @@
           </h3>
         </div>
 
-
         <div>
           <form>
             <div class="mb-3">
@@ -60,25 +59,15 @@
 <script>
 
 import {ref, onMounted, computed} from "vue";
-import CustomInput from "@/components/ui/CustomInput.vue";
-import CustomEditor from "@/components/ui/CustomEditor.vue";
 import axios from "@/services/axios";
 import { useRoute, useRouter} from "vue-router";
-import CustomButton from "@/components/ui/CustomButton.vue";
 import {loadNote} from "@/hooks/notes/loadNote";
-import CustomMultiSelect from "@/components/ui/CustomMultiSelect.vue";
 import {useTags} from "@/hooks/tags/useTags";
 
 export default {
   name: "NoteUpdatePage",
-  components: {
-    CustomButton,
-    CustomInput,
-    CustomEditor,
-    CustomMultiSelect,
-  },
   setup() {
-    const route = useRoute(); // Используем для получения параметров маршрута (id заметки)
+    const route = useRoute(); // Используем для получения параметров маршрута (id)
     const router = useRouter(); // Для перехода после обновления заметки
     const noteId = route.params.id; // Получаем id из маршрута
 
@@ -87,15 +76,14 @@ export default {
     const text = ref("");
     const selectedTags = ref([]);
 
-    const { tags } = useTags();
+    const { tags, tagsFormatForSelect:availableTags } = useTags();
 
-    const availableTags = computed(() => {
-      return tags.value.map(tag => ({
-        label: tag.name,
-        value: tag.id,
-      }));
-    });
-
+    // const availableTags = computed(() => {
+    //   return tags.value.map(tag => ({
+    //     label: tag.name,
+    //     value: tag.id,
+    //   }));
+    // });
 
     // Загрузка существующей заметки с сервера
     const loadNote = async () => {
@@ -128,13 +116,9 @@ export default {
       }
     };
 
-    console.log('selectedTags: ', selectedTags);
-    // console.log('availableTags: ', availableTags);
-
     // Загружаем заметку при монтировании компонента
     onMounted(loadNote);
 
-    // console.log('selectedTags: ', selectedTags);
     return {
       title,
       text,

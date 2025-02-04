@@ -6,10 +6,8 @@ import * as bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import './assets/main.css';
 import directives from "@/directives";
 import components from '@/components/ui';
-import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import "@vueform/multiselect/themes/default.css";
+
 
 const app = createApp(App);
 

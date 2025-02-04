@@ -1,4 +1,4 @@
-import {onMounted ,ref} from "vue";
+import {onMounted ,ref, computed} from "vue";
 import axios from "@/services/axios";
 
 export function useTags() {
@@ -15,9 +15,19 @@ export function useTags() {
         }
     }
 
+    // Обработанные теги для селекта
+    const tagsFormatForSelect = computed(() =>
+        tags.value.map((tag) => ({
+            label: tag.name,
+            value: tag.id,
+        }))
+    );
+
+
     onMounted(fetching);
 
     return {
-        tags
+        tags,
+        tagsFormatForSelect
     }
 }

@@ -63,23 +63,12 @@
 <script>
 
 import {ref,  computed} from "vue";
-import CustomInput from "@/components/ui/CustomInput.vue";
-import CustomEditor from "@/components/ui/CustomEditor.vue";
-import CustomButton from "@/components/ui/CustomButton.vue";
-import CustomMultiSelect from "@/components/ui/CustomMultiSelect.vue";
 import axios from "@/services/axios";
 import {useRouter} from "vue-router";
 import {useTags} from "@/hooks/tags/useTags";
 
 export default {
   name: "NoteCreatePage",
-  components: {
-    CustomMultiSelect,
-    CustomButton,
-    CustomInput,
-    CustomEditor,
-    CustomSelect: CustomMultiSelect,
-  },
   setup(props, context) {
     const router = useRouter();
 

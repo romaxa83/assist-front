@@ -133,8 +133,6 @@
 
 import {useTags} from "@/hooks/tags/useTags";
 import TagItem from "@/components/tags/TagItem.vue";
-import CustomButton from "@/components/ui/CustomButton.vue";
-import CustomInput from "@/components/ui/CustomInput.vue";
 import axios from "axios";
 import * as bootstrap from "bootstrap/dist/js/bootstrap.bundle";
 import TagTable from "@/components/tags/table/TagTable.vue";
@@ -143,8 +141,6 @@ export default {
   name: "TagsPage",
   components: {
     TagTable,
-    CustomButton,
-    CustomInput,
     TagItem
   },
   data() {

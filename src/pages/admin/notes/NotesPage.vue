@@ -83,16 +83,13 @@
 
 <script>
 
-import CustomButton from "@/components/ui/CustomButton.vue";
 import {useNotes} from "@/hooks/notes/useNotes";
 import NoteTable from "@/components/notes/table/NoteTable.vue";
 import { useRouter } from 'vue-router';
 
-
 export default {
   name: "NotesPage",
   components: {
-    CustomButton,
     NoteTable,
   },
   setup(props, context) {

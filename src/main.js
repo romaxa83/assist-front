@@ -8,7 +8,8 @@ import directives from "@/directives";
 import components from '@/components/ui';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import "@vueform/multiselect/themes/default.css";
 
 const app = createApp(App);
 
@@ -19,6 +20,7 @@ store.dispatch('auth/restoreSession');
 components.forEach(component => {
     app.component(component.name, component);
 });
+
 
 // регистрируем собственные директивы
 directives.forEach(directive => {

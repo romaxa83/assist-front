@@ -1,6 +1,6 @@
 @import 'bootstrap/dist/css/bootstrap.css';
+/*@import 'quill/dist/quill.snow.css';*/
 
-@import 'bootstrap/dist/css/bootstrap.css';
 
 input:focus,
 textarea:focus,
@@ -11,3 +11,55 @@ select:focus,
     box-shadow: 0 0 0 0.15rem rgb(23, 43, 58); /* Новый цвет тени */
     border-color: #172b3a; /* Новый цвет рамки */
 }
+
+/* -- Стили для Quill -- */
+
+/* 1. Настройка области редактирования */
+/*.ql-editor {*/
+/*    background-color: #f9f9f9; !* Светло-серый фон *!*/
+/*    min-height: 150px;         !* Устанавливаем минимальную высоту *!*/
+/*    padding: 15px;             !* Добавляем отступы *!*/
+/*    font-family: Arial, sans-serif; !* Шрифт текста *!*/
+/*    font-size: 14px;*/
+/*    line-height: 1.6;          !* Увеличиваем межстрочное расстояние *!*/
+/*    border: 1px solid #ddd;    !* Рамка вокруг редактора *!*/
+/*    border-radius: 5px;        !* Скругленные углы *!*/
+/*}*/
+
+/*!* 2. Настройка панели инструментов *!*/
+/*.ql-toolbar {*/
+/*    background-color: #ececec; !* Светло-серый фон панели *!*/
+/*    border: 1px solid #ccc;    !* Рамка у панели инструментов *!*/
+/*    border-radius: 5px;*/
+/*    padding: 5px;*/
+/*}*/
+
+/*!* Кнопки панели инструментов *!*/
+/*.ql-toolbar button {*/
+/*    background-color: #fff;    !* Цвет фона кнопки *!*/
+/*    border: 1px solid #ddd;    !* Рамка кнопки *!*/
+/*    border-radius: 3px;*/
+/*}*/
+
+/*.ql-toolbar button:hover {*/
+/*    background-color: #e0e0e0; !* Фон при наведении *!*/
+/*}*/
+
+/*!* Активные кнопки (нажатые) *!*/
+/*.ql-toolbar .ql-active {*/
+/*    background-color: #007bff;*/
+/*    color: #fff;*/
+/*}*/
+
+/*!* 3. Настройка изображений в редакторе *!*/
+/*.ql-editor img {*/
+/*    max-width: 100%;          !* Ограничиваем ширину изображения *!*/
+/*    border-radius: 5px;       !* Скругляем углы изображений *!*/
+/*    margin: 5px 0;            !* Добавляем отступы сверху и снизу *!*/
+/*}*/
+
+/*!* 4. Ссылки в редактируемой области *!*/
+/*.ql-editor a {*/
+/*    color: #007bff;           !* Цвет ссылки *!*/
+/*    text-decoration: underline;*/
+/*}*/

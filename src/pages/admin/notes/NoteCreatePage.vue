@@ -23,13 +23,22 @@
                   @update:error="clearError('title')"
 
               />
-              <custom-input
-                  v-model:modelValue="text"
+
+              <!-- Селект для тегов -->
+              <custom-multi-select
+                  v-model="selectedTags"
+                  :options="availableTags"
+                  placeholder="Select tags"
+                  label="Tags"
+                  id="noteTags"
+              />
+
+              <custom-editor
+                  v-model="text"
                   id="noteText"
                   label="Text"
-                  type="textarea"
-                  :error="errors.text && errors.text[0]"
               />
+
             </div>
             <custom-button
                 @click="createNote"
@@ -53,29 +62,52 @@
 
 <script>
 
-import {ref} from "vue";
+import {ref,  computed} from "vue";
 import CustomInput from "@/components/ui/CustomInput.vue";
+import CustomEditor from "@/components/ui/CustomEditor.vue";
+import CustomButton from "@/components/ui/CustomButton.vue";
+import CustomMultiSelect from "@/components/ui/CustomMultiSelect.vue";
 import axios from "@/services/axios";
 import {useRouter} from "vue-router";
-import CustomButton from "@/components/ui/CustomButton.vue";
+import {useTags} from "@/hooks/tags/useTags";
 
 export default {
   name: "NoteCreatePage",
-  components: {CustomButton, CustomInput},
+  components: {
+    CustomMultiSelect,
+    CustomButton,
+    CustomInput,
+    CustomEditor,
+    CustomSelect: CustomMultiSelect,
+  },
   setup(props, context) {
     const router = useRouter();
 
     const title = ref('');
     const text = ref('');
+    const selectedTags = ref([]); // Выбранные теги
+
     const errors = ref({});
 
+    const { tags } = useTags();
+
+    // Преобразуем теги в формат { label, value }
+    const availableTags = computed(() => {
+      return tags.value.map(tag => ({
+        label: tag.name, // Используем поле 'name' для отображения
+        value: tag.id,   // Используем поле 'id' для уникальности
+      }));
+    });
 
     const createNote = async () => {
 
       try {
+        const tags = selectedTags.value.map(tag => tag.value);
+
         await axios.post(`/api/notes`, {
           title: title.value,
           text: text.value,
+          tags: selectedTags.value
         }, {
           withAuth: true,
         });
@@ -89,31 +121,32 @@ export default {
           // Обработка других ошибок (например, связь с сервером отсутствует)
           console.error("Ошибка при отправке запроса:", error);
         }
-
       }
     }
 
     // Удаление ошибки
     const clearError = (fieldName) => {
-      console.log(`Clearing error for ${fieldName}`);
       if (errors.value[fieldName]) {
         delete errors.value[fieldName];
       }
     };
-
-
 
     return {
       title,
       text,
       createNote,
       errors,
-      clearError
+      clearError,
+      selectedTags,
+      availableTags,
     }
   },
+
+
 }
 </script>
 
 <style scoped>
+
 
 </style>

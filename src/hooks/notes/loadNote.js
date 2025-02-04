@@ -1,13 +1,15 @@
 import {onMounted ,ref} from "vue";
 import axios from "@/services/axios";
 
-export function useNotes() {
-    const notes = ref([]);
+export function loadNote(id) {
+    const note = ref();
 
-    const fetching = async () => {
+    const load = async () => {
         try {
-            const res = await axios.get('/api/notes')
+            const res = await axios.get(`/api/notes/${id}`)
+            console.log(res);
             if(res.status === 200){
+                console.log(res.data);
                 notes.value = res.data.data;
             }
         } catch (e) {
@@ -15,9 +17,9 @@ export function useNotes() {
         }
     }
 
-    onMounted(fetching);
+    onMounted(load);
 
     return {
-        notes
+        note
     }
 }

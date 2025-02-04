@@ -6,6 +6,7 @@ import NotePage from "@/pages/notes/NotePage.vue";
 import AdminTagsPage from "@/pages/admin/tags/TagsPage.vue";
 import AdminNotesPage from "@/pages/admin/notes/NotesPage.vue";
 import AdminNoteCreatePage from "@/pages/admin/notes/NoteCreatePage.vue";
+import AdminNoteUpdatedPage from "@/pages/admin/notes/NoteUpdatePage.vue";
 import NotFoundPage from "@/pages/error/NotFoundPage.vue";
 
 
@@ -29,6 +30,12 @@ const routes = [
     path: '/admin/notes/create',
     name: 'admin-notes-create',
     component: AdminNoteCreatePage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/notes/update/:id',
+    name: 'admin-notes-update',
+    component: AdminNoteUpdatedPage,
     meta: { requiresAuth: true }
   },
   // Маршрут для страницы 404

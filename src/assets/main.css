@@ -3,6 +3,14 @@
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+/* стилизуем ссылки */
+a {
+    color: #3c8dbc;
+    text-decoration: none;
+}
+a:hover {
+    color: #0269c2;
+}
 
 input:focus,
 textarea:focus,

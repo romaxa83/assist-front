@@ -4,12 +4,6 @@
 
     <div class="row g-5">
       <div class="col-md-10">
-        <div class="d-flex justify-content-between align-items-center pb-4 mb-4 border-bottom">
-          <h3 class="fst-italic">
-            Update Note
-          </h3>
-        </div>
-
         <div>
           <form>
             <div class="mb-3">
@@ -63,10 +57,18 @@ import axios from "@/services/axios";
 import { useRoute, useRouter} from "vue-router";
 import {loadNote} from "@/hooks/notes/loadNote";
 import {useTags} from "@/hooks/tags/useTags";
+import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
 
 export default {
   name: "NoteUpdatePage",
   setup() {
+
+    useBreadcrumbs([
+      { label: 'Tags', href: '/admin/tags' },
+      { label: 'Notes', href: '/admin/notes' },
+      { label: `Update Notes`, href: '' }
+    ]);
+
     const route = useRoute(); // Используем для получения параметров маршрута (id)
     const router = useRouter(); // Для перехода после обновления заметки
     const noteId = route.params.id; // Получаем id из маршрута
@@ -77,13 +79,6 @@ export default {
     const selectedTags = ref([]);
 
     const { tags, tagsFormatForSelect:availableTags } = useTags();
-
-    // const availableTags = computed(() => {
-    //   return tags.value.map(tag => ({
-    //     label: tag.name,
-    //     value: tag.id,
-    //   }));
-    // });
 
     // Загрузка существующей заметки с сервера
     const loadNote = async () => {

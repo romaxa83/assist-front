@@ -4,6 +4,7 @@
 
     <div class="row g-5">
       <div class="col-md-10">
+
         <div class="d-flex justify-content-between align-items-center pb-4 mb-4 border-bottom">
           <h3 class="fst-italic">
             Notes
@@ -58,7 +59,6 @@
             </div>
           </div>
 
-
         </div>
 
 
@@ -72,9 +72,6 @@
         <div class="row mb-2">
 
         </div>
-
-
-
       </div>
     </div>
 
@@ -86,13 +83,21 @@
 import {useNotes} from "@/hooks/notes/useNotes";
 import NoteTable from "@/components/notes/table/NoteTable.vue";
 import { useRouter } from 'vue-router';
+import Breadcrumb from "@/components/ui/nav/Breadcrumb.vue";
+import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
 
 export default {
   name: "NotesPage",
   components: {
+    Breadcrumb,
     NoteTable,
   },
   setup(props, context) {
+    useBreadcrumbs([
+      { label: 'Tags', href: '/admin/tags' },
+      { label: 'Notes', href: '/admin/notes' }
+    ]);
+
     const router = useRouter();
 
     const {notes} = useNotes();
@@ -102,6 +107,7 @@ export default {
     return {
       notes,
       toCreatePage,
+
     }
   },
 }

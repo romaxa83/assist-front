@@ -4,11 +4,6 @@
 
     <div class="row g-5">
       <div class="col-md-10">
-        <div class="d-flex justify-content-between align-items-center pb-4 mb-4 border-bottom">
-          <h3 class="fst-italic">
-            Create Note
-          </h3>
-        </div>
 
         <div>
           <form>
@@ -66,10 +61,17 @@ import {ref,  computed} from "vue";
 import axios from "@/services/axios";
 import {useRouter} from "vue-router";
 import {useTags} from "@/hooks/tags/useTags";
+import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
 
 export default {
   name: "NoteCreatePage",
   setup(props, context) {
+    useBreadcrumbs([
+      { label: 'Tags', href: '/admin/tags' },
+      { label: 'Notes', href: '/admin/notes' },
+      { label: 'Create Notes', href: '' }
+    ]);
+
     const router = useRouter();
 
     const title = ref('');

@@ -136,6 +136,7 @@ import TagItem from "@/components/tags/TagItem.vue";
 import axios from "axios";
 import * as bootstrap from "bootstrap/dist/js/bootstrap.bundle";
 import TagTable from "@/components/tags/table/TagTable.vue";
+import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
 
 export default {
   name: "TagsPage",
@@ -308,6 +309,11 @@ export default {
 
   },
   setup(props, context) {
+    useBreadcrumbs([
+      { label: 'Notes', href: '/admin/notes' },
+      { label: 'Tags', href: '/admin/tags' }
+    ]);
+
     const {tags} = useTags();
 
     return {

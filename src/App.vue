@@ -2,6 +2,8 @@
   <navbar></navbar>
 
   <main class="app">
+    <breadcrumb :breadcrumbs="breadcrumbs"></breadcrumb>
+
     <router-view></router-view>
   </main>
 
@@ -11,11 +13,21 @@
 <script>
 import Navbar from "@/components/navbar/Navbar.vue";
 import Bottom from "@/components/footer/Bottom.vue";
+import Breadcrumb from "@/components/ui/nav/Breadcrumb.vue";
+import { reactive, provide } from 'vue';
+
 
 export default {
   components: {
+    Breadcrumb,
     Navbar,
     Bottom
+  },
+  setup() {
+    const breadcrumbs = reactive([]);
+    provide('breadcrumbs', breadcrumbs);
+
+    return { breadcrumbs };
   }
 }
 

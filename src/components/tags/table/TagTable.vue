@@ -23,7 +23,6 @@
       <td>{{ tag.weight }}</td>
       <td class="d-flex justify-content-end">
 
-        <!-- Кнопка редактирования -->
         <button
             class="btn btn-sm btn-warning me-2"
             title="Edit"

@@ -8,7 +8,6 @@ import directives from "@/directives";
 import components from '@/components/ui';
 import '@fortawesome/fontawesome-free/js/all.js';
 
-
 const app = createApp(App);
 
 // Восстанавливаем данные пользователя из localStorage

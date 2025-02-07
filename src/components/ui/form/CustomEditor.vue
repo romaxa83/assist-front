@@ -5,12 +5,22 @@
     </label>
     <!-- QuillEditor -->
     <div ref="quillContainer" class="quill-editor"></div>
+
   </div>
 </template>
 
 <script>
 import { ref, watch, onMounted } from "vue";
+import hljs from "highlight.js";
+// import "highlight.js/styles/atom-one-dark.css";
+
 import Quill from "quill";
+
+// Делаем Highlight.js доступным для Quill
+// if (typeof window !== "undefined") {
+//   window.hljs = hljs;
+// }
+
 
 export default {
   name: "CustomEditor",
@@ -42,12 +52,13 @@ export default {
           toolbar: [
             ["bold", "italic", "underline", "strike"], // Инструменты форматирования
             ["blockquote", "code-block"],
+            [{ header: [2, 3, 4, 5, 6, false] }],
             ["link", "image", "video"],
             [{ indent: "-1" }, { indent: "+1" }],   // Отступы
             [{ list: "ordered" }, { list: "bullet" }],  // Списки
             [{ align: [] }], // Выравнивание текста
             ["clean"] // Очистка форматирования
-          ]
+          ],
         }
       });
 
@@ -81,9 +92,12 @@ export default {
 
 <style scoped>
 .quill-editor {
-  min-height: 200px;
-  max-height: 500px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  height: 500px;
+  max-height: 600px;
+  overflow-y: auto; /* Активирует прокрутку, если текст слишком большой */
+  border: 1px solid #ccc; /* Рамка вокруг редактора (опционально) */
+  padding: 15px; /* Внутренние отступы редактора */
+  box-sizing: border-box; /* Корректный учет размеров */
+
 }
 </style>

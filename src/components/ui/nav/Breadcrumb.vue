@@ -35,11 +35,9 @@
 
 </template>
 <script>
-import NoteTable from "@/components/notes/table/NoteTable.vue";
 
 export default {
   name: "Breadcrumb",
-  components: {NoteTable},
   props: {
     breadcrumbs: {
       type: Array,
@@ -47,7 +45,6 @@ export default {
       default: () => [],
     },
   },
-
 }
 </script>
 

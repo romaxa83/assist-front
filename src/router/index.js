@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store';
 
 import MainPage from "@/pages/MainPage.vue";
-import NotePage from "@/pages/notes/NotePage.vue";
-import AdminTagsPage from "@/pages/admin/tags/TagsPage.vue";
-import AdminNotesPage from "@/pages/admin/notes/NotesPage.vue";
-import AdminNoteCreatePage from "@/pages/admin/notes/NoteCreatePage.vue";
-import AdminNoteUpdatedPage from "@/pages/admin/notes/NoteUpdatePage.vue";
+import NotePage from "@/pages/public/notes/NotePage.vue";
+import PrivateTagsPage from "@/pages/private/tags/TagsPage.vue";
+import PrivateNotesPage from "@/pages/private/notes/NotesPage.vue";
+import PrivateNoteCreatePage from "@/pages/private/notes/NoteCreatePage.vue";
+import PrivateNoteUpdatedPage from "@/pages/private/notes/NoteUpdatePage.vue";
 import NotFoundPage from "@/pages/error/NotFoundPage.vue";
 
 
@@ -14,28 +14,29 @@ import NotFoundPage from "@/pages/error/NotFoundPage.vue";
 const routes = [
   {path: '/', name: 'main', component: MainPage},
   {path: '/notes', name: 'note', component: NotePage},
+  {path: '/notes/:id', name: 'note', component: NotePage},
   {
     path: '/admin/tags',
     name: 'admin-tags',
-    component: AdminTagsPage,
+    component: PrivateTagsPage,
     meta: { requiresAuth: true }
   },
   {
     path: '/admin/notes',
     name: 'admin-notes',
-    component: AdminNotesPage,
+    component: PrivateNotesPage,
     meta: { requiresAuth: true }
   },
   {
     path: '/admin/notes/create',
     name: 'admin-notes-create',
-    component: AdminNoteCreatePage,
+    component: PrivateNoteCreatePage,
     meta: { requiresAuth: true }
   },
   {
     path: '/admin/notes/update/:id',
     name: 'admin-notes-update',
-    component: AdminNoteUpdatedPage,
+    component: PrivateNoteUpdatedPage,
     meta: { requiresAuth: true }
   },
   // Маршрут для страницы 404

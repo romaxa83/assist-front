@@ -1,0 +1,29 @@
+:root {
+    --base_yellow: #ffbf12;
+    --base_light_yellow: #fff3cd;
+    --base_black: #222020;
+    --base_grey: #6c757d;
+    --base_light_grey: #c9d9e4;
+    --base_white: #f8f9fa;
+
+    /* Input */
+    --input-shadow: var(--base_black);
+
+    /* Button */
+    --input-shadow: var(--base_black);
+
+    /* Pagination */
+    --pagination-item-background-color: var(--base_light_yellow);
+    --pagination-item-color: var(--base_black);
+    --pagination-item-border-color: var(--base_light_grey);
+
+    --pagination-item-active-background-color: var(--base_yellow);
+    --pagination-item-active-color: var(--base_black);
+    --pagination-item-active-border-color: var(--base_yellow);
+
+    --pagination-item-hover-background-color: var(--base_yellow);
+    --pagination-item-hover-color: var(--base_black);
+
+    --pagination-item-disabled-background-color: var(--base_white);
+    --pagination-item-disabled-color: var(--base_grey);
+}

@@ -1,7 +1,14 @@
+@import url('variables.css');
+
+
 @import 'bootstrap/dist/css/bootstrap.css';
 @import "@vueform/multiselect/themes/default.css";
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import '@vueup/vue-quill/dist/vue-quill.snow.css';
+@import 'highlight.js/styles/atom-one-dark.css';
+
+
+
 
 /* стилизуем ссылки */
 a {
@@ -18,8 +25,8 @@ select:focus,
 .form-control:focus,
 .form-select:focus {
     outline: none;
-    box-shadow: 0 0 0 0.15rem rgb(23, 43, 58); /* Новый цвет тени */
-    border-color: #172b3a; /* Новый цвет рамки */
+    box-shadow: 0 0 0 0.08rem var(--input-shadow); /* Новый цвет тени */
+    border-color: var(--input-shadow); /* Новый цвет рамки */
 }
 
 

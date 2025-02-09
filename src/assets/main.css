@@ -1,13 +1,10 @@
 @import url('variables.css');
 
-
 @import 'bootstrap/dist/css/bootstrap.css';
 @import "@vueform/multiselect/themes/default.css";
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import '@vueup/vue-quill/dist/vue-quill.snow.css';
 @import 'highlight.js/styles/atom-one-dark.css';
-
-
 
 
 /* стилизуем ссылки */

@@ -12,6 +12,11 @@
     /* Button */
     --input-shadow: var(--base_black);
 
+    /* Button sort */
+    --btn-sort-border-color: var(--base_yellow);
+    --btn-sort-active-border-color: var(--base_black);
+    --btn-sort-hover-border-color: var(--base_black);
+
     /* Pagination */
     --pagination-item-background-color: var(--base_light_yellow);
     --pagination-item-color: var(--base_black);

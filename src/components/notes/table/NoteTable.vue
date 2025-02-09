@@ -185,7 +185,7 @@ export default {
   height: 0;
   border-left: 8px solid transparent; /* Прозрачная левая сторона границы */
   border-right: 8px solid transparent; /* Прозрачная правая сторона границы */
-  border-bottom: 8px solid #ffbf09; /* Нижняя граница треугольника */
+  border-bottom: 8px solid var(--btn-sort-border-color); /* Нижняя граница треугольника */
   cursor: pointer; /* Указатель "рука" при наведении */
   transition: transform 0.2s, border-bottom-color 0.3s; /* Анимация */
 }
@@ -196,7 +196,7 @@ export default {
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid #ffbf09; /* Верхняя граница треугольника */
+  border-top: 8px solid var(--btn-sort-border-color); /* Верхняя граница треугольника */
   cursor: pointer;
   transition: transform 0.2s, border-top-color 0.3s;
 }
@@ -204,22 +204,22 @@ export default {
 /* При наведении на треугольник вверх */
 .sort-buttons .triangle-up:hover {
   transform: scale(1.2); /* Увеличиваем треугольник при наведении */
-  border-bottom-color: #222020; /* Меняем цвет нижней границы на чёрный */
+  border-bottom-color: var(--btn-sort-hover-border-color); /* Меняем цвет нижней границы на чёрный */
 }
 
 /* При наведении на треугольник вниз */
 .sort-buttons .triangle-down:hover {
   transform: scale(1.2); /* Увеличиваем треугольник при наведении */
-  border-top-color: #222020; /* Меняем цвет верхней границы на чёрный */
+  border-top-color: var(--btn-sort-hover-border-color); /* Меняем цвет верхней границы на чёрный */
 }
 
 /* Активный треугольник (выбран для сортировки) */
 .sort-buttons .triangle-up.active {
-  border-bottom-color: #222020; /* Чёрный цвет для активного треугольника вверх */
+  border-bottom-color: var(--btn-sort-hover-border-color); /* цвет для активного треугольника вверх */
 }
 
 .sort-buttons .triangle-down.active {
-  border-top-color: #222020; /* Чёрный цвет для активного треугольника вниз */
+  border-top-color: var(--btn-sort-hover-border-color); /* цвет для активного треугольника вниз */
 }
 
 /* Текст заголовка (необязательно, просто для выравнивания стиля) */

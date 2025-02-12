@@ -21,11 +21,7 @@
       <div class="container table_block_container">
         <!-- Filter block -->
         <div class="row py-3 table_filter_container">
-          <div class="col-md-3">
-            <input-simple
-                :placeholder="'Filter id'"
-            />
-          </div>
+
           <div class="col-md-3">
             <select-simple
                 v-model="selectedStatus"
@@ -33,7 +29,14 @@
             />
           </div>
           <div class="col-md-3">
-
+            <date-range
+                v-model="selectedRange"
+            />
+          </div>
+          <div class="col-md-3">
+            <!--            <input-simple-->
+            <!--                :placeholder="'Filter id'"-->
+            <!--            />-->
           </div>
           <div class="col-md-3">
             <div class="row justify-content-end">
@@ -102,10 +105,12 @@ import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
 import axios from "@/services/axios";
 import SelectSimple from "@/components/ui/form/SelectSimple.vue";
 import {useNoteSettings} from "@/hooks/settings/useNoteSettings";
+import DateRange from "@/components/ui/form/DateRange.vue";
 
 export default {
   name: "NotesPage",
   components: {
+    DateRange,
     SelectSimple,
     Breadcrumb,
     NoteTable,
@@ -125,6 +130,7 @@ export default {
     // дефолтное значение
     const selectedPerPage = ref(10);
     const selectedStatus = ref("");
+    const selectedRange = ref([null, null]);
 
     // Получение статусов
     const { statuses: rawStatuses } = useNoteSettings();
@@ -231,6 +237,7 @@ export default {
       handlePageChange,
       selectedStatus,
       optionsStatuses,
+      selectedRange,
     }
   },
 }

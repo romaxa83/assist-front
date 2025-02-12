@@ -39,8 +39,17 @@
           </form>
         </div>
 
-        <div class="row mb-2">
+      </div>
+      <div class="col-md-2">
 
+        <div class="mb-3">
+          <select-simple
+              v-model="status"
+              :options="allowedStatuses"
+              label="Status"
+              id="noteStatus"
+              @update:modelValue="setStatus"
+          />
         </div>
 
 
@@ -52,15 +61,17 @@
 
 <script>
 
-import {ref, onMounted, computed} from "vue";
+import {ref, onMounted, computed, watch} from "vue";
 import axios from "@/services/axios";
 import { useRoute, useRouter} from "vue-router";
 import {loadNote} from "@/hooks/notes/loadNote";
 import {useTags} from "@/hooks/tags/useTags";
 import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
+import SelectSimple from "@/components/ui/form/SelectSimple.vue";
 
 export default {
   name: "NoteUpdatePage",
+  components: {SelectSimple},
   setup() {
 
     useBreadcrumbs([
@@ -77,15 +88,22 @@ export default {
     const title = ref("");
     const text = ref("");
     const selectedTags = ref([]);
+    const status = ref("");
+    const allowedStatuses = ref([]);
 
     const { tags, tagsFormatForSelect:availableTags } = useTags();
 
     // Загрузка существующей заметки с сервера
     const loadNote = async () => {
       try {
-        const response = await axios.get(`/api/notes/${noteId}`);
+        const response = await axios.get(`/api/notes/${noteId}`, {
+          withAuth: true,
+        });
+
         title.value = response.data.title;
         text.value = response.data.text;
+        status.value = response.data.status;
+        allowedStatuses.value = response.data.meta.statuses;
         selectedTags.value = response.data.tags.map(tag => (
           tag.id
         ));
@@ -111,15 +129,27 @@ export default {
       }
     };
 
-    // Загружаем заметку при монтировании компонента
+    const setStatus = async () => {
+      try {
+        await axios.post(`/api/notes/${noteId}/set-status`, {
+          status: status.value,
+        },{withAuth: true});
+      } catch (error) {
+        console.error("Ошибка при смене статуса:", error);
+      }
+    };
+
     onMounted(loadNote);
 
     return {
       title,
       text,
       updateNote,
+      setStatus,
       selectedTags,
       availableTags,
+      status,
+      allowedStatuses,
     };
   },
 }

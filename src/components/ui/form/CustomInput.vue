@@ -59,8 +59,6 @@ export default {
   },
   methods: {
     clearError() {
-      console.log("Clearing error in CustomInput")
-
       // Уведомляем родительский компонент об изменении ошибки
       this.$emit("update:error", "");
     },

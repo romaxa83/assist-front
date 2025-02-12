@@ -1,20 +1,34 @@
 <template>
 
-  <select
-      class="form-select custom-simple-select"
-      :value="modelValue"
-      @change="onChange"
-      aria-label="Select an option"
-  >
-    <option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-        :selected="option.value === modelValue"
+  <div class="form-group">
+    <label
+        v-if="label"
+        :for="id"
+        class="form-label"
     >
-      {{ option.label }}
-    </option>
-  </select>
+      {{ label }}
+    </label>
+
+    <select
+        class="form-select custom-simple-select"
+        :value="modelValue"
+        @change="onChange"
+        aria-label="Select an option"
+    >
+      <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :selected="option.value === modelValue"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+
+
+  </div>
+
+
 
 </template>
 
@@ -29,6 +43,14 @@ export default {
     options: {
       type: Array,
       default: () => [],
+    },
+    label: {
+      type: String,
+      required: false,
+    },
+    id: {
+      type: String,
+      required: false,
     },
   },
   setup(props, { emit }){

@@ -8,6 +8,10 @@ import directives from "@/directives";
 import components from '@/components/ui';
 import '@fortawesome/fontawesome-free/js/all.js';
 
+import 'highlight.js/styles/stackoverflow-light.css'
+import 'highlight.js/lib/common';
+import hljsVuePlugin from "@highlightjs/vue-plugin";
+
 const app = createApp(App);
 
 // Восстанавливаем данные пользователя из localStorage
@@ -26,6 +30,7 @@ directives.forEach(directive => {
 
 app
     .provide('bootstrap', bootstrap)
+    .use(hljsVuePlugin)
     .use(store)
     .use(router)
     .mount('#app');

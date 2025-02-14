@@ -11,15 +11,10 @@
 
 <script>
 import { ref, watch, onMounted } from "vue";
-import hljs from "highlight.js";
-// import "highlight.js/styles/atom-one-dark.css";
+import "highlight.js/styles/default.css";
 
 import Quill from "quill";
 
-// Делаем Highlight.js доступным для Quill
-// if (typeof window !== "undefined") {
-//   window.hljs = hljs;
-// }
 
 
 export default {
@@ -43,12 +38,41 @@ export default {
     const quillContainer = ref(null);
     let quillInstance = null;
 
+    // Функция очистки лишних элементов (например, <select> в блоках кода)
+    function cleanCodeBlocks(html) {
+      const container = document.createElement("div");
+      container.innerHTML = html;
+
+      // Удаляем <select> из блоков кода
+      container.querySelectorAll(".ql-code-block-container select").forEach((select) => {
+        select.remove();
+      });
+
+      // Возвращаем очищенный HTML
+      return container.innerHTML;
+    }
+
+    // Подсветка кода через Highlight.js
+    function highlightCodeBlocks(root) {
+      const codeBlocks = root.querySelectorAll("pre.ql-syntax");
+      codeBlocks.forEach((block) => {
+        hljs.highlightElement(block); // Применяем подсветку
+      });
+    }
+
+
+
+
     // Инициализация Quill
     onMounted(() => {
       quillInstance = new Quill(quillContainer.value, {
         theme: "snow", // или "bubble" для другой темы
         placeholder: "Введите текст...",
         modules: {
+          syntax: {
+            highlight: (text) => hljs.highlightAuto(text).value,
+          },
+
           toolbar: [
             ["bold", "italic", "underline", "strike"], // Инструменты форматирования
             ["blockquote", "code-block"],
@@ -62,14 +86,18 @@ export default {
         }
       });
 
-      // Устанавливаем начальное значение (если передано из родителя)
+      // Изначальная установка значения modelValue
       if (props.modelValue) {
         quillInstance.root.innerHTML = props.modelValue;
+        highlightCodeBlocks(quillInstance.root); // Применение подсветки
       }
+
 
       // Слушаем изменения текста и обновляем данные родителя
       quillInstance.on("text-change", () => {
         emit("update:modelValue", quillInstance.root.innerHTML);
+        highlightCodeBlocks(quillInstance.root); // Применяем подсветку к новым текстам
+
       });
     });
 
@@ -79,7 +107,10 @@ export default {
         (newValue) => {
           if (quillInstance && newValue !== quillInstance.root.innerHTML) {
             quillInstance.root.innerHTML = newValue || ""; // Обновляем содержимое редактора
+            highlightCodeBlocks(quillInstance.root); // Применяем подсветку
+
           }
+
         }
     );
 

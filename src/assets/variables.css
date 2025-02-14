@@ -17,6 +17,17 @@
     --btn-sort-active-border-color: var(--base_black);
     --btn-sort-hover-border-color: var(--base_black);
 
+    /* Button action */
+    --btn-action-background: var(--base_yellow);
+    --btn-action-color: var(--base_black);
+    --btn-action-border-color: var(--base_black);
+    --btn-action-hover-background: var(--base_black);
+    --btn-action-hover-color: var(--base_yellow);
+    --btn-action-hover-border-color: var(--base_yellow);
+    --btn-action-active-background: var(--base_black);
+    --btn-action-active-color: var(--base_yellow);
+    --btn-action-active-border-color: var(--base_black);
+
     /* Pagination */
     --pagination-item-background-color: var(--base_light_yellow);
     --pagination-item-color: var(--base_black);

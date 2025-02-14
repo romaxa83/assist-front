@@ -24,7 +24,13 @@
                   id="noteTags"
               />
 
-              <custom-editor
+<!--              <custom-editor-->
+<!--                  v-model="text"-->
+<!--                  id="noteText"-->
+<!--                  label="Text"-->
+<!--              />-->
+
+              <tiptap-editor
                   v-model="text"
                   id="noteText"
                   label="Text"
@@ -68,10 +74,14 @@ import {loadNote} from "@/hooks/notes/loadNote";
 import {useTags} from "@/hooks/tags/useTags";
 import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
 import SelectSimple from "@/components/ui/form/SelectSimple.vue";
+import TiptapEditor from "@/components/ui/form/TiptapEditor.vue";
 
 export default {
   name: "NoteUpdatePage",
-  components: {SelectSimple},
+  components: {
+    SelectSimple,
+    TiptapEditor
+  },
   setup() {
 
     useBreadcrumbs([

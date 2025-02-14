@@ -28,11 +28,17 @@
                   id="noteTags"
               />
 
-              <custom-editor
+              <tiptap-editor
                   v-model="text"
                   id="noteText"
                   label="Text"
               />
+
+<!--              <custom-editor-->
+<!--                  v-model="text"-->
+<!--                  id="noteText"-->
+<!--                  label="Text"-->
+<!--              />-->
 
             </div>
             <custom-button
@@ -62,9 +68,11 @@ import axios from "@/services/axios";
 import {useRouter} from "vue-router";
 import {useTags} from "@/hooks/tags/useTags";
 import {useBreadcrumbs} from "@/hooks/useBreadcrumbs";
+import TiptapEditor from "@/components/ui/form/TiptapEditor.vue";
 
 export default {
   name: "NoteCreatePage",
+  components: {TiptapEditor},
   setup(props, context) {
     useBreadcrumbs([
       { label: 'Tags', href: '/admin/tags' },

@@ -3,75 +3,32 @@
     <thead>
     <tr>
       <th scope="col">
-
-        <div class="sort-header">
-          ID
-          <div class="sort-buttons">
-            <!-- Верхний треугольник для сортировки по возрастанию -->
-            <div
-                class="triangle-up active"
-                title="Sort ascending"
-            ></div>
-
-            <!-- Нижний треугольник для сортировки по убыванию -->
-            <div
-                class="triangle-down"
-                title="Sort descending"
-            ></div>
-
-          </div>
-        </div>
-
-
+        ID
       </th>
       <th scope="col">Title</th>
       <th scope="col">Status</th>
-      <th scope="col" class="sort-column">
-        <div class="sort-header">
+      <th scope="col">
+        <sort-column
+            field="weight"
+            :activeSort="activeSort"
+            @sort="handleSort"
+        >
           Weight
-          <div class="sort-buttons">
-            <!-- Верхний треугольник для сортировки по возрастанию -->
-            <div
-                class="triangle-up"
-                title="Sort ascending"
-            ></div>
-
-            <!-- Нижний треугольник для сортировки по убыванию -->
-            <div
-                class="triangle-down"
-                title="Sort descending"
-            ></div>
-
-          </div>
-
-<!--          <button-->
-<!--              class="sort-button"-->
-<!--              :class="{ active: sortKey === 'id' && sortOrder === 'asc' }"-->
-<!--              title="Sort ID Asc"-->
-<!--              @click="sortNotes('id', 'asc')"-->
-<!--          >-->
-<!--            <i class="fa-solid fa-arrow-up"></i>-->
-<!--          </button>-->
-<!--          <button-->
-<!--              class="sort-button"-->
-<!--              :class="{ active: sortKey === 'id' && sortOrder === 'desc' }"-->
-<!--              title="Sort ID Desc"-->
-<!--              @click="sortNotes('id', 'desc')"-->
-<!--          >-->
-<!--            <i class="fa-solid fa-arrow-down"></i>-->
-<!--          </button>-->
-
-        </div>
-
-
-
+        </sort-column>
       </th>
-      <th scope="col">Created</th>
+      <th scope="col">
+        <sort-column
+            field="created_at"
+            :activeSort="activeSort"
+            @sort="handleSort"
+        >
+          Created
+        </sort-column>
+      </th>
       <th scope="col" class="text-center actions-column">Action</th>
     </tr>
     </thead>
     <tbody>
-
     <tr
         v-for="note in notes"
         :key="note.id"
@@ -80,39 +37,38 @@
     >
       <th scope="row">{{ note.id }}</th>
       <td>{{ note.title }}</td>
-      <td>{{ note.status }}</td>
+      <td>
+        <note-status :status="note.status"/>
+      </td>
       <td>{{ note.weight }}</td>
       <td>{{ note.created_at }}</td>
-      <td class="d-flex justify-content-end">
+      <td class="text-end actions-column">
+        <div class="d-flex flex-nowrap align-items-center">
+          <!-- Кнопка редактирования -->
+          <small-button
+              classCustom="me-2"
+              title="Show"
+              @click="toNotePage(note)"
+          >
+            <i class="fa-solid fa-eye"></i>
+          </small-button>
 
-        <!-- Кнопка редактирования -->
+          <small-button
+              classCustom="me-2"
+              title="Edit"
+              @click="toUpdatePage(note)"
+          >
+            <i class="fa-solid fa-pen"></i>
+          </small-button>
 
-        <button
-            class="btn btn-sm btn-warning me-2"
-            title="Edit"
-            @click="toNotePage(note)"
-        >
-          <i class="fa-solid fa-eye" style="color: #333;"></i>
-        </button>
-
-        <button
-            class="btn btn-sm btn-warning me-2"
-            title="Edit"
-            @click="toUpdatePage(note)"
-        >
-          <i class="fa-solid fa-pen" style="color: #333;"></i>
-        </button>
-
-        <button
-            class="btn btn-sm btn-warning"
-            title="Delete"
-            @click="$emit('remove', note)"
-        >
-          <i class="fa-solid fa-trash" style="color: #333;"></i>
-        </button>
-
+          <small-button
+              title="Delete"
+              @click="$emit('remove', note)"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </small-button>
+        </div>
       </td>
-
     </tr>
 
     </tbody>
@@ -120,27 +76,102 @@
 </template>
 
 <script>
-import {useRouter} from "vue-router";
-import {useNotes} from "@/hooks/notes/useNotes";
+import { computed, ref, watch, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import axios from "@/services/axios";
+import SortColumn from "@/components/ui/table/SortColumn.vue";
+import SmallButton from "@/components/ui/button/SmallButton.vue";
+import NoteStatus from "@/components/notes/table/NoteStatus.vue";
+
 
 export default {
   name: "NoteTable",
+  components: {
+    NoteStatus,
+    SmallButton,
+    SortColumn
+  },
   props: {
     notes: {
       type: Array,
       required: true,
     },
   },
-  setup() {
+  setup(props, { emit }) {
     const router = useRouter();
+    const route = useRoute();
+
+    // Дефолтная сортировка
+    const defaultSort = [{ field: "created_at", direction: "desc" }];
+    const activeSort = ref([...defaultSort]);
+
+    // Обновление query параметров (в формате sort[]=value)
+    const updateQueryParams = () => {
+      const query = { ...route.query };
+
+      // Обновляем массив `sort` в query как массив
+      query.sort = activeSort.value.map(
+          ({ field, direction }) => `${field}-${direction}`
+      );
+
+      router
+          .push({ query })
+          .catch((err) =>
+              console.error("Ошибка обновления query-параметров:", err)
+          );
+    };
+
+    // Обработка события сортировки
+    const handleSort = ({ field, direction }) => {
+      const existingIndex = activeSort.value.findIndex((sort) => sort.field === field);
+
+      if (existingIndex !== -1) {
+        // Если поле существует, обновляем его направление
+        activeSort.value[existingIndex].direction = direction;
+      } else {
+        // Если поле не существует, добавляем его в массив
+        activeSort.value.push({ field, direction });
+      }
+
+      updateQueryParams(); // Обновляем query параметры
+      emit("sortChanged", activeSort.value); // Передаем наружу
+    };
+
+    // Синхронизация с query параметрами
+    watch(
+        () => route.query.sort,
+        (newSort) => {
+          if (!newSort) {
+            activeSort.value = [...defaultSort];
+            return;
+          }
+
+          // Обрабатываем массив sort=[]
+          activeSort.value = Array.isArray(newSort)
+              ? newSort.map((sortItem) => {
+                const [field, direction] = sortItem.split("-");
+                return { field, direction };
+              })
+              : [];
+        },
+        { immediate: true }
+    );
+
+    // Устанавливаем дефолтную сортировку при загрузке
+    onMounted(() => {
+      if (!route.query.sort) {
+        activeSort.value = [...defaultSort];
+        // updateQueryParams();
+      }
+    });
+
 
     const toUpdatePage = (note) => router.push(`/admin/notes/update/${note.id}`);
-    const toNotePage = (note) => router.push(`/notes/${note.id}`);
+    const toNotePage = (note) => router.push(`/notes/${note.slug}`);
 
     const removeNote = async (note) => {
       try {
-        await axios.delete(`api/notes/${note.id}`,{
+        await axios.delete(`api/private/notes/${note.id}`,{
           withAuth: true,
         });
 
@@ -151,6 +182,9 @@ export default {
     }
 
     return {
+      defaultSort,
+      activeSort,
+      handleSort,
       toUpdatePage,
       toNotePage,
       removeNote
@@ -160,71 +194,15 @@ export default {
 </script>
 
 <style scoped>
-/* Заголовок с кнопками (в одном ряду) */
-.sort-header {
-  display: flex;
-  align-items: center; /* Вертикальное выравнивание текста и треугольников */
-  gap: 5px; /* Расстояние (отступ) между заголовком и кнопками */
-  white-space: nowrap; /* Запрещаем перенос текста и кнопок на новую строку */
+/* Автоматически растягивать высоту action-колонки */
+.actions-column {
+  white-space: nowrap; /* Не позволяет содержимому колонки разваливаться на несколько строк */
+  vertical-align: middle;
 }
 
-/* Контейнер для кнопок сортировки (треугольников) */
-.sort-buttons {
-  display: flex;
-  flex-direction: column; /* Располагаем треугольники вертикально */
-  justify-content: center; /* Центрируем кнопки вертикально */
-  align-items: center; /* Горизонтальное выравнивание внутри контейнера */
-  gap: 5px; /* Отступ между верхним и нижним треугольником */
-  height: auto; /* Автовысота контейнера */
-  width: 18px; /* Ширина для вертикального стека кнопок */
+/* Дополнительно стилизуйте кнопки, если они добавляют пустоту */
+.actions-column .btn {
+  margin: 0; /* Убираем лишний отступ между кнопками */
 }
 
-/* Верхний треугольник (стрелка вверх) */
-.sort-buttons .triangle-up {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent; /* Прозрачная левая сторона границы */
-  border-right: 8px solid transparent; /* Прозрачная правая сторона границы */
-  border-bottom: 8px solid var(--btn-sort-border-color); /* Нижняя граница треугольника */
-  cursor: pointer; /* Указатель "рука" при наведении */
-  transition: transform 0.2s, border-bottom-color 0.3s; /* Анимация */
-}
-
-/* Нижний треугольник (стрелка вниз) */
-.sort-buttons .triangle-down {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid var(--btn-sort-border-color); /* Верхняя граница треугольника */
-  cursor: pointer;
-  transition: transform 0.2s, border-top-color 0.3s;
-}
-
-/* При наведении на треугольник вверх */
-.sort-buttons .triangle-up:hover {
-  transform: scale(1.2); /* Увеличиваем треугольник при наведении */
-  border-bottom-color: var(--btn-sort-hover-border-color); /* Меняем цвет нижней границы на чёрный */
-}
-
-/* При наведении на треугольник вниз */
-.sort-buttons .triangle-down:hover {
-  transform: scale(1.2); /* Увеличиваем треугольник при наведении */
-  border-top-color: var(--btn-sort-hover-border-color); /* Меняем цвет верхней границы на чёрный */
-}
-
-/* Активный треугольник (выбран для сортировки) */
-.sort-buttons .triangle-up.active {
-  border-bottom-color: var(--btn-sort-hover-border-color); /* цвет для активного треугольника вверх */
-}
-
-.sort-buttons .triangle-down.active {
-  border-top-color: var(--btn-sort-hover-border-color); /* цвет для активного треугольника вниз */
-}
-
-/* Текст заголовка (необязательно, просто для выравнивания стиля) */
-.sort-header span {
-  font-weight: bold;
-  font-size: 14px;
-}
 </style>

@@ -22,34 +22,34 @@
       <td>{{ tag.slug }}</td>
       <td>{{ tag.weight }}</td>
       <td class="d-flex justify-content-end">
+        <div class="d-flex flex-nowrap align-items-center">
+          <small-button
+              classCustom="me-2"
+              title="Edit Tag"
+              @click="$emit('edit', tag)"
+          >
+            <i class="fa-solid fa-pen"></i>
+          </small-button>
 
-        <button
-            class="btn btn-sm btn-warning me-2"
-            title="Edit"
-            @click="$emit('edit', tag)"
-        >
-          <i class="fa-solid fa-pen" style="color: #333;"></i>
-        </button>
-
-        <button
-            class="btn btn-sm btn-warning"
-            title="Delete"
-            @click="$emit('remove', tag)"
-        >
-          <i class="fa-solid fa-trash" style="color: #333;"></i>
-        </button>
-
+          <small-button
+              title="Delete Tag"
+              @click="$emit('remove', tag)"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </small-button>
+        </div>
       </td>
-
     </tr>
-
     </tbody>
   </table>
 </template>
 
 <script>
+import SmallButton from "@/components/ui/button/SmallButton.vue";
+
 export default {
   name: "TagTable",
+  components: {SmallButton},
   props: {
     tags: {
       type: Array,

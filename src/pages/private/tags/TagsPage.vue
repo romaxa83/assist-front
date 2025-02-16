@@ -103,10 +103,7 @@
               </div>
             </div>
           </div>
-
-
         </div>
-
 
         <!-- Table -->
         <div>
@@ -120,9 +117,6 @@
         <div class="row mb-2">
 
         </div>
-
-
-
       </div>
     </div>
 
@@ -208,7 +202,7 @@ export default {
 
         if(this.isEditMode){
           const response = await axios.put(
-              `http://192.168.193.1/api/tags/${this.tag.id}`,
+              `http://192.168.193.1/api/private/tags/${this.tag.id}`,
               this.tag,
               { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -223,7 +217,7 @@ export default {
 
         } else {
           const response = await axios.post(
-              'http://192.168.193.1/api/tags',
+              'http://192.168.193.1/private/api/tags',
               this.tag,
               {headers: {Authorization: `Bearer ${token}`,}}
           );
@@ -248,7 +242,6 @@ export default {
           console.error('Ошибка при попытке входа:', error);
         }
       }
-
     },
 
 
@@ -259,7 +252,7 @@ export default {
       try {
         const token = localStorage.getItem('authToken');
         const response = await axios.delete(
-            `http://192.168.193.1/api/tags/${this.tagToDelete.id}`,
+            `http://192.168.193.1/api/private/tags/${this.tagToDelete.id}`,
             {headers: {Authorization: `Bearer ${token}`,}}
         );
 
@@ -310,7 +303,7 @@ export default {
   },
   setup(props, context) {
     useBreadcrumbs([
-      { label: 'Notes', href: '/admin/notes' },
+      { label: 'Notes (private)', href: '/admin/notes' },
       { label: 'Tags', href: '/admin/tags' }
     ]);
 

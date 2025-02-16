@@ -9,6 +9,7 @@
         </h3>
 
         <custom-button
+            title="Create Note"
             @click="toCreatePage"
         >
           Create
@@ -23,6 +24,11 @@
         <div class="row py-3 table_filter_container">
 
           <div class="col-md-3">
+            <input-simple
+                :placeholder="'Search by title'"
+            />
+          </div>
+          <div class="col-md-3">
             <select-simple
                 v-model="selectedStatus"
                 :options="optionsStatuses"
@@ -33,11 +39,7 @@
                 v-model="selectedRange"
             />
           </div>
-          <div class="col-md-3">
-            <!--            <input-simple-->
-            <!--                :placeholder="'Filter id'"-->
-            <!--            />-->
-          </div>
+
           <div class="col-md-3">
             <div class="row justify-content-end">
               <!-- Select for perPage -->
@@ -49,12 +51,12 @@
               </div>
               <!-- Clear filter -->
               <div class="col-md-2">
-                <button
-                    class="btn btn-sm btn-warning me-2"
-                    title="Edit"
+                <small-button
+                    title="Clear filter"
+                    @click="clearFilter"
                 >
-                  <i class="fa-solid fa-pen" style="color: #333;"></i>
-                </button>
+                  <i class="fa fa-times"></i>
+                </small-button>
               </div>
             </div>
           </div>
@@ -106,10 +108,12 @@ import axios from "@/services/axios";
 import SelectSimple from "@/components/ui/form/SelectSimple.vue";
 import {useNoteSettings} from "@/hooks/settings/useNoteSettings";
 import DateRange from "@/components/ui/form/DateRange.vue";
+import SmallButton from "@/components/ui/button/SmallButton.vue";
 
 export default {
   name: "NotesPage",
   components: {
+    SmallButton,
     DateRange,
     SelectSimple,
     Breadcrumb,
@@ -123,8 +127,9 @@ export default {
     const route = useRoute();
 
     useBreadcrumbs([
+      { label: 'Notes (public)', href: '/' },
       { label: 'Tags', href: '/admin/tags' },
-      { label: 'Notes', href: '/admin/notes' }
+      { label: 'Notes (private)', href: '/admin/notes' }
     ]);
 
     // дефолтное значение
@@ -166,6 +171,14 @@ export default {
       }
     };
 
+    const clearFilter = () => {
+      selectedStatus.value = "";
+      selectedRange.value = [null, null];
+
+      const { per_page } = route.query;
+      router.push({query: {per_page: per_page || 10}});
+    }
+
     const handlePageChange = async (url) => {
 
       if (!url) return; // Защита на случай передачи пустого URL
@@ -191,27 +204,56 @@ export default {
 
 
     onMounted(async () => {
+
       // Считываем параметры из URL
-      const { per_page: perPageFromUrl, status: statusFromUrl } = route.query;
+      const {
+        per_page: perPageFromUrl,
+        status: statusFromUrl,
+        start_date,
+        end_date
+      } = route.query;
 
       // Синхронизация параметров из URL с внутренними переменными
       selectedStatus.value = statusFromUrl || ""; // Если нет `statusFromUrl`, установить дефолтное значение
       selectedPerPage.value = Number(perPageFromUrl) || 10; // Если нет `per_page`, установить дефолтное значение
 
+      // Устанавливаем значения из параметров URL
+      if (start_date || end_date) {
+        selectedRange.value = [
+          start_date ? new Date(start_date) : null,
+          end_date ? new Date(end_date) : null,
+        ];
+      }
+
       // Выполняем запрос с параметрами
       await fetching({
         per_page: selectedPerPage.value,
         status: selectedStatus.value,
+        start_date,
+        end_date,
       });
     });
 
-    watch([selectedStatus, selectedPerPage], async ([newStatus, newPerPage]) => {
+    watch([
+      selectedStatus,
+      selectedPerPage,
+      selectedRange
+    ], async ([newStatus, newPerPage, newSelectedRange]) => {
+
+      const [startDate, endDate] = newSelectedRange
+
       // Формируем объект параметров
       const updatedParams = {
         ...route.query,
         page: 1, // Сбрасываем страницу
         per_page: newPerPage,
+        start_date: startDate ? startDate.toISOString().split("T")[0] : undefined,
+        end_date: endDate ? endDate.toISOString().split("T")[0] : undefined
       };
+
+      // Удаляем ключи из параметров, если дата отсутствует
+      if (!startDate) delete updatedParams.start_date;
+      if (!endDate) delete updatedParams.end_date;
 
       // Удаляем параметр `status` из URL, если статус пустой
       if (newStatus) {
@@ -232,6 +274,7 @@ export default {
       meta,
       toCreatePage,
       handleRemove,
+      clearFilter,
       selectedPerPage,
       optionsPerPage,
       handlePageChange,

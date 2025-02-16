@@ -7,6 +7,8 @@
           {{ note.title }}
         </h1>
 
+        <tags-row-for-note :tags="note.tags" size="large"/>
+
         <article class="blog-post border-bottom">
           <div
               v-for="(block, index) in note.text_blocks"
@@ -77,13 +79,21 @@ import {onMounted, ref} from "vue";
 import {useTags} from "@/hooks/tags/useTags";
 import axios from "@/services/axios";
 import 'highlight.js/styles/tokyo-night-dark.css';
+import TagsRowForNote from "@/components/tags/note/TagsRow.vue";
 
 export default {
   name: "NotePage",
+  components: {TagsRowForNote},
   setup() {
+
+    const breadcrumbs = ref([
+      { label: "Main", href: "/" },
+    ]);
+    useBreadcrumbs(breadcrumbs);
+
     const route = useRoute(); // Используем для получения параметров маршрута (id)
     const router = useRouter(); // Для перехода после обновления заметки
-    const noteId = route.params.id; // Получаем id из маршрута
+    const noteSlug = route.params.slug; // Получаем id из маршрута
 
     const copiedIndex = ref(null); // Хранит индекс блока кода, где был клик
 
@@ -91,8 +101,15 @@ export default {
 
     const loadNote = async () => {
       try {
-        const response = await axios.get(`/api/notes/${noteId}`);
+        const response = await axios.get(`/api/notes/${noteSlug}`);
         note.value = response.data;
+
+        // Обновляем хлебные крошки с учётом нового заголовка
+        breadcrumbs.value = [
+          ...breadcrumbs.value,
+          { label: note.value.title, href: "" },
+        ];
+
       } catch (error) {
         console.error("Ошибка при загрузке заметки:", error);
       }
@@ -144,7 +161,6 @@ export default {
 <style scoped>
 .code-block {
   position: relative; /* Устанавливаем контекст позиционирования для кнопки */
-
 }
 
 .copy-button {

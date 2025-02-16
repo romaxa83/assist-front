@@ -6,7 +6,7 @@ export function useNoteSettings() {
 
     const fetching = async () => {
         try {
-            const res = await axios.get('/api/settings/notes', {
+            const res = await axios.get('/api/private/settings/notes', {
                 withAuth: true,
             });
 

@@ -14,7 +14,7 @@ import NotFoundPage from "@/pages/error/NotFoundPage.vue";
 const routes = [
   {path: '/', name: 'main', component: MainPage},
   {path: '/notes', name: 'note', component: NotePage},
-  {path: '/notes/:id', name: 'note', component: NotePage},
+  {path: '/notes/:slug', name: 'note', component: NotePage},
   {
     path: '/admin/tags',
     name: 'admin-tags',

@@ -5,12 +5,47 @@
     --base_grey: #6c757d;
     --base_light_grey: #c9d9e4;
     --base_white: #f8f9fa;
+    --base_blue: #0269c2;
+    --base_light_blue: #2b9ddf;
+
+    /* Link */
+    --link-color: var(--base_light_blue);
+    --link_hover-color: var(--base_blue);
+
+    /* Tag for note */
+    --tag-for-note-background-color: var(--base_yellow);
+    --tag-for-note-color: var(--base_black);
 
     /* Input */
     --input-shadow: var(--base_black);
 
     /* Button */
     --input-shadow: var(--base_black);
+
+    /* Status */
+    --status-draft-background-color: var(--base_black);
+    --status-draft-color: var(--base_yellow);
+    --status-draft-border-color: var(--base_black);
+
+    --status-moderation-background-color: var(--base_black);
+    --status-moderation-color: var(--base_yellow);
+    --status-moderation-border-color: var(--base_black);
+
+    --status-moderated-background-color: var(--base_black);
+    --status-moderated-color: var(--base_yellow);
+    --status-moderated-border-color: var(--base_black);
+
+    --status-public-background-color: var(--base_white);
+    --status-public-color: var(--base_black);
+    --status-public-border-color: var(--base_white);
+
+    --status-private-background-color: var(--base_white);
+    --status-private-color: var(--base_yellow);
+    --status-private-border-color: var(--base_white);
+
+    --status-default-background-color: var(--base_grey);
+    --status-default-color: var(--base_yellow);
+    --status-default-border-color: var(--base_grey);
 
     /* Button sort */
     --btn-sort-border-color: var(--base_yellow);

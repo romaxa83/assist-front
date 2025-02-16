@@ -3,12 +3,11 @@ import axios from "@/services/axios";
 
 export function useNotes(params) {
     const notes = ref([]);
-    const meta = ref([]);
 
     const fetching = async (params) => {
         try {
             const res = await axios.get(
-                '/api/private/notes',
+                '/api/notes',
                 {
                     params: params,
                     withAuth: true
@@ -16,18 +15,18 @@ export function useNotes(params) {
             )
             if(res.status === 200){
                 notes.value = res.data.data;
-                meta.value = res.data.meta;
+
+                console.log(notes.value);
             }
         } catch (e) {
-            alert('Error Fetch Notes', e)
+            console.error('Error Fetch Public Notes', e);
         }
     }
 
-    // onMounted(fetching);
+    onMounted(fetching);
 
     return {
         notes,
-        meta,
         fetching
     }
 }

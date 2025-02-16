@@ -37,7 +37,7 @@ const actions = {
 
         // Получение профиля пользователя
         try {
-            const response = await axios.get('/api/profile', {
+            const response = await axios.get('/api/private/profile', {
                 headers: {Authorization: `Bearer ${payload.token}`,},
             });
 
@@ -51,7 +51,7 @@ const actions = {
 
     async logout({ commit, state }) {
         try {
-            await axios.post('/api/logout',
+            await axios.post('/api/private/logout',
             null,
                 {headers: {Authorization: `Bearer ${state.authToken}`,},
             });

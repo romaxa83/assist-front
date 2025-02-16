@@ -6,7 +6,7 @@ export function useTags() {
 
     const fetching = async () => {
         try {
-            const res = await axios.get('/api/tags')
+            const res = await axios.get('/api/private/tags', {withAuth: true})
             if(res.status === 200){
                 tags.value = res.data;
             }

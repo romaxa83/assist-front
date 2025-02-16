@@ -6,7 +6,7 @@ export function loadNote(id) {
 
     const load = async () => {
         try {
-            const res = await axios.get(`/api/notes/${id}`)
+            const res = await axios.get(`/api/private/notes/${id}`, {withAuth: true})
             console.log(res);
             if(res.status === 200){
                 console.log(res.data);

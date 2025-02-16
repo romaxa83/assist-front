@@ -5,16 +5,15 @@
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import '@vueup/vue-quill/dist/vue-quill.snow.css';
 @import 'highlight.js/styles/atom-one-dark.css';
-@import '@vuepic/vue-datepicker/dist/main.css';
 
 
 /* стилизуем ссылки */
 a {
-    color: #3c8dbc;
+    color: var(--link-color);
     text-decoration: none;
 }
 a:hover {
-    color: #0269c2;
+    color: var(--link_hover-color);
 }
 
 input:focus,
@@ -27,6 +26,18 @@ select:focus,
     border-color: var(--input-shadow); /* Новый цвет рамки */
 }
 
+/* Таблицы */
+/* Общее выравнивание содержимого по вертикали для всех ячеек */
+table.table tbody tr td,
+table.table tbody tr th {
+    vertical-align: middle; /* Или "top", если нужно выравнивание по верхнему краю */
+}
+
+/* Уменьшение внутренних отступов в ячейках таблицы */
+table.table td,
+table.table th {
+    padding: 4px 8px; /* Внутренние отступы (по умолчанию в Bootstrap: 0.75rem) */
+}
 
 /* ---------------------------------------------------------------- */
 /* Переопределение стилей для select из пакета @vueform/multiselect */
@@ -57,54 +68,3 @@ select:focus,
 }
 /* ---------------------------------------------------------------- */
 
-/* -- Стили для Quill -- */
-
-/* 1. Настройка области редактирования */
-/*.ql-editor {*/
-/*    background-color: #f9f9f9; !* Светло-серый фон *!*/
-/*    min-height: 150px;         !* Устанавливаем минимальную высоту *!*/
-/*    padding: 15px;             !* Добавляем отступы *!*/
-/*    font-family: Arial, sans-serif; !* Шрифт текста *!*/
-/*    font-size: 14px;*/
-/*    line-height: 1.6;          !* Увеличиваем межстрочное расстояние *!*/
-/*    border: 1px solid #ddd;    !* Рамка вокруг редактора *!*/
-/*    border-radius: 5px;        !* Скругленные углы *!*/
-/*}*/
-
-/*!* 2. Настройка панели инструментов *!*/
-/*.ql-toolbar {*/
-/*    background-color: #ececec; !* Светло-серый фон панели *!*/
-/*    border: 1px solid #ccc;    !* Рамка у панели инструментов *!*/
-/*    border-radius: 5px;*/
-/*    padding: 5px;*/
-/*}*/
-
-/*!* Кнопки панели инструментов *!*/
-/*.ql-toolbar button {*/
-/*    background-color: #fff;    !* Цвет фона кнопки *!*/
-/*    border: 1px solid #ddd;    !* Рамка кнопки *!*/
-/*    border-radius: 3px;*/
-/*}*/
-
-/*.ql-toolbar button:hover {*/
-/*    background-color: #e0e0e0; !* Фон при наведении *!*/
-/*}*/
-
-/*!* Активные кнопки (нажатые) *!*/
-/*.ql-toolbar .ql-active {*/
-/*    background-color: #007bff;*/
-/*    color: #fff;*/
-/*}*/
-
-/*!* 3. Настройка изображений в редакторе *!*/
-/*.ql-editor img {*/
-/*    max-width: 100%;          !* Ограничиваем ширину изображения *!*/
-/*    border-radius: 5px;       !* Скругляем углы изображений *!*/
-/*    margin: 5px 0;            !* Добавляем отступы сверху и снизу *!*/
-/*}*/
-
-/*!* 4. Ссылки в редактируемой области *!*/
-/*.ql-editor a {*/
-/*    color: #007bff;           !* Цвет ссылки *!*/
-/*    text-decoration: underline;*/
-/*}*/

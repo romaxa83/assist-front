@@ -4,9 +4,8 @@ export default {
         // список для кол-ва выводимых записей
         optionsPerPage: [
             { value: 10, label: "10 records" },
-            { value: 2, label: "2 records" },
-            { value: 5, label: "5 records" },
-            { value: 1, label: "1 records" },
+            { value: 20, label: "20 records" },
+            { value: 50, label: "50 records" },
         ],
     },
     getters: {

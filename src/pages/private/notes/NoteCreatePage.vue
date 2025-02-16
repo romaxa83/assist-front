@@ -1,10 +1,7 @@
 <template>
-
   <div class="container">
-
     <div class="row g-5">
       <div class="col-md-10">
-
         <div>
           <form>
             <div class="mb-3">
@@ -34,12 +31,6 @@
                   label="Text"
               />
 
-<!--              <custom-editor-->
-<!--                  v-model="text"-->
-<!--                  id="noteText"-->
-<!--                  label="Text"-->
-<!--              />-->
-
             </div>
             <custom-button
                 @click="createNote"
@@ -48,13 +39,9 @@
             </custom-button>
           </form>
         </div>
-
         <div class="row mb-2">
 
         </div>
-
-
-
       </div>
     </div>
 

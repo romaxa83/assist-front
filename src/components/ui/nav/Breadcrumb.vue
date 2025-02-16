@@ -1,12 +1,12 @@
 <template>
 
-  <div class="container">
-    <div class="row g-5">
-      <div class="breadcrumb-panel col-md-10">
-        <nav
-            v-if="breadcrumbs.length"
-            aria-label="breadcrumb"
-        >
+  <div
+      v-if="breadcrumbs.length"
+      class="container-fluid"
+  >
+    <div class="row g-15">
+      <div class="breadcrumb-panel col-md-12">
+        <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li
                 v-for="(item, index) in breadcrumbs"

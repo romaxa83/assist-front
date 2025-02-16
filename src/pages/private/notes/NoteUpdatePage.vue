@@ -24,12 +24,6 @@
                   id="noteTags"
               />
 
-<!--              <custom-editor-->
-<!--                  v-model="text"-->
-<!--                  id="noteText"-->
-<!--                  label="Text"-->
-<!--              />-->
-
               <tiptap-editor
                   v-model="text"
                   id="noteText"
@@ -106,7 +100,7 @@ export default {
     // Загрузка существующей заметки с сервера
     const loadNote = async () => {
       try {
-        const response = await axios.get(`/api/notes/${noteId}`, {
+        const response = await axios.get(`/api/private/notes/${noteId}`, {
           withAuth: true,
         });
 
@@ -128,7 +122,7 @@ export default {
       try {
         const tags = selectedTags.value;
 
-        await axios.put(`/api/notes/${noteId}`, {
+        await axios.put(`/api/private/notes/${noteId}`, {
           title: title.value,
           text: text.value,
           tags: tags
@@ -141,7 +135,7 @@ export default {
 
     const setStatus = async () => {
       try {
-        await axios.post(`/api/notes/${noteId}/set-status`, {
+        await axios.post(`/api/private/notes/${noteId}/set-status`, {
           status: status.value,
         },{withAuth: true});
       } catch (error) {

@@ -14,31 +14,14 @@
           </li>
           <li
               v-if="isAuthenticated"
-          ><a
-              href="#"
-              class="nav-link px-2 text-white dropdown-toggle"
-              id="dropdownContentNavLink"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              >
-                Content
-              </a>
-              <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownContentNavLink" style="">
-                <li><a class="dropdown-item" href="#" aria-current="page">Overview</a></li>
-                <li>
-                  <router-link class="dropdown-item" to="/admin/tags">Tags</router-link>
-                </li>
-                <li>
-                  <router-link class="dropdown-item" to="/admin/notes">Notes</router-link>
-                </li>
-              </ul>
+          >
+            <router-link class="dropdown-item" to="/admin/notes">
+              <i class="fa fa-sticky-note me-2"></i>
+            </router-link>
           </li>
         </ul>
 
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        </form>
 
         <div class="text-end">
           <custom-button
@@ -49,6 +32,8 @@
             Login
           </custom-button>
         </div>
+
+
 
         <div
             v-if="isAuthenticated"
@@ -154,7 +139,7 @@
 </template>
 
 <script>
-import CustomButton from "@/components/ui/CustomButton.vue";
+import CustomButton from "@/components/ui/button/CustomButton.vue";
 import axios from "axios";
 import {mapActions, mapState} from "vuex";
 import * as bootstrap from "bootstrap/dist/js/bootstrap.bundle";

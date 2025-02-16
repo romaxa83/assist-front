@@ -9,31 +9,30 @@
       {{ label }}
     </label>
 
-    <!-- Поле выбора диапазона -->
-    <VueDatePicker
-        v-model="selectedRange"
-        :range="true"
-        :date-format="inputFormat"
-        :position="position"
-        :first-day-of-week="firstDayOfWeek"
+
+    <date-picker
+        v-model:value="internalModelValue"
         :placeholder="placeholder"
-        @focus="setTodayIfEmpty"
-    />
+        range>
+    </date-picker>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+import DatePicker from 'vue-datepicker-next';
+import 'vue-datepicker-next/index.css';
+
 
 export default {
   name: "DateRange",
-  components: { VueDatePicker },
+  components: { DatePicker },
   props: {
     modelValue: {
-      type: Array, // Диапазон дат передается как массив
-      default: () => [null, null], // Начальное значение пустое
+      type: [Array, String, Number, Date], // Тип значения для диапазона или даты
+      required: false,
+      default: () => [null, null]
+      ,
     },
     label: {
       type: String,
@@ -45,63 +44,31 @@ export default {
     },
     placeholder: {
       type: String,
-      default: "Выберите диапазон дат",
+      default: "Change date",
     },
-    firstDayOfWeek: {
-      type: Number,
-      default: 1, // Понедельник как первый день
-    },
-    inputFormat: {
-      type: String,
-      default: "YYYY-MM-DD",
-    },
-    position: {
-      type: String,
-      default: "bottom-start", // Расположение календаря
-    },
+
   },
   setup(props, { emit }) {
-    // Локальная копия диапазона
-    const selectedRange = ref(props.modelValue);
+// Создаем реактивное хранилище для внутреннего значения
+    const internalModelValue = ref(props.modelValue);
 
-    // Текущая дата в формате 'YYYY-MM-DD'
-    const getToday = () => {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    };
-
-    // Устанавливаем текущую дату, если поле пустое
-    const setTodayIfEmpty = () => {
-      if (
-          !selectedRange.value ||
-          (Array.isArray(selectedRange.value) &&
-              (selectedRange.value[0] === null || selectedRange.value[1] === null))
-      ) {
-        const today = getToday();
-        selectedRange.value = [today, today]; // Устанавливаем текущую дату
-      }
-    };
-
-    // Отслеживание изменений и обновление родительского компонента через v-model
-    watch(selectedRange, (newValue) => {
-      emit("update:modelValue", newValue);
-    });
-
-    // Отслеживаем props и синхронизируем локальную копию
+    // Watcher для синхронизации `modelValue` с внутренним значением
     watch(
         () => props.modelValue,
-        (newValue) => {
-          selectedRange.value = newValue;
+        (newVal) => {
+          internalModelValue.value = newVal;
         }
     );
 
+    // Watcher для обновления родительской модели
+    watch(internalModelValue, (newVal) => {
+      emit("update:modelValue", newVal);
+    });
+
     return {
-      selectedRange,
-      setTodayIfEmpty,
+      internalModelValue, // Используем внутреннее реактивное значение
     };
+
   },
 };
 </script>

@@ -6,6 +6,7 @@
       :required="required"
       :placeholder="placeholder"
       :title="title"
+      @change="onChange"
   >
 </template>
 
@@ -21,6 +22,10 @@ export default {
       type: String,
       default: "text",
     },
+    title: {
+      type: String,
+      default: "",
+    },
     required: {
       type: String,
       default: "",
@@ -30,6 +35,18 @@ export default {
       default: "",
     }
   },
+  setup(props, { emit }){
+
+    const onChange = (event) => {
+      const value = event.target.value;
+      emit("update:modelValue", value);
+      emit("change", value);
+    };
+
+    return {
+      onChange,
+    }
+  }
 }
 </script>
 

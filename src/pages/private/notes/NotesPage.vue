@@ -25,6 +25,7 @@
 
           <div class="col-md-3">
             <input-simple
+                v-model="search"
                 :placeholder="'Search by title'"
             />
           </div>
@@ -136,6 +137,7 @@ export default {
     const selectedPerPage = ref(10);
     const selectedStatus = ref("");
     const selectedRange = ref([null, null]);
+    const search = ref("");
 
     // Получение статусов
     const { statuses: rawStatuses } = useNoteSettings();
@@ -173,6 +175,7 @@ export default {
 
     const clearFilter = () => {
       selectedStatus.value = "";
+      search.value = "";
       selectedRange.value = [null, null];
 
       const { per_page } = route.query;
@@ -185,16 +188,18 @@ export default {
 
       const params = new URL(url).searchParams; // Извлекаем параметры из URL
       const page = params.get("page"); // Получаем номер страницы
-      const perPage = selectedPerPage.value; // Учитываем текущий `per_page`
-      const status = selectedStatus.value; // Учитываем текущий `per_page`
+      const perPage = selectedPerPage.value;
+      const status = selectedStatus.value;
+      const search = search.value;
 
       // Обновляем параметры в адресной строке
       router.push({
         query: {
           ...route.query, // Сохраняем текущие параметры
           page,
-          per_page: perPage, // Добавляем текущий per_page
-          status: status, // Добавляем текущий per_page
+          per_page: perPage,
+          status: status,
+          search_title: search,
         },
       });
 
@@ -204,18 +209,19 @@ export default {
 
 
     onMounted(async () => {
-
       // Считываем параметры из URL
       const {
         per_page: perPageFromUrl,
         status: statusFromUrl,
         start_date,
-        end_date
+        end_date,
+        search_title,
       } = route.query;
 
       // Синхронизация параметров из URL с внутренними переменными
       selectedStatus.value = statusFromUrl || ""; // Если нет `statusFromUrl`, установить дефолтное значение
       selectedPerPage.value = Number(perPageFromUrl) || 10; // Если нет `per_page`, установить дефолтное значение
+      search.value = search_title || "";
 
       // Устанавливаем значения из параметров URL
       if (start_date || end_date) {
@@ -231,14 +237,17 @@ export default {
         status: selectedStatus.value,
         start_date,
         end_date,
+        search_title,
       });
     });
 
+    // отслеживаем изменения фильтров
     watch([
       selectedStatus,
       selectedPerPage,
-      selectedRange
-    ], async ([newStatus, newPerPage, newSelectedRange]) => {
+      selectedRange,
+      search
+    ], async ([newStatus, newPerPage, newSelectedRange, newSearch]) => {
 
       const [startDate, endDate] = newSelectedRange
 
@@ -248,12 +257,16 @@ export default {
         page: 1, // Сбрасываем страницу
         per_page: newPerPage,
         start_date: startDate ? startDate.toISOString().split("T")[0] : undefined,
-        end_date: endDate ? endDate.toISOString().split("T")[0] : undefined
+        end_date: endDate ? endDate.toISOString().split("T")[0] : undefined,
+        search_title: newSearch ? newSearch : undefined,
       };
+
+      console.log('updatedParams: ', updatedParams);
 
       // Удаляем ключи из параметров, если дата отсутствует
       if (!startDate) delete updatedParams.start_date;
       if (!endDate) delete updatedParams.end_date;
+      if (!newSearch) delete updatedParams.search_title;
 
       // Удаляем параметр `status` из URL, если статус пустой
       if (newStatus) {
@@ -261,6 +274,8 @@ export default {
       } else {
         delete updatedParams.status;
       }
+
+      console.log('Clear updatedParams: ', updatedParams);
 
       // Используем сформированные параметры для обновления URL
       router.push({ query: updatedParams });
@@ -281,6 +296,7 @@ export default {
       selectedStatus,
       optionsStatuses,
       selectedRange,
+      search
     }
   },
 }

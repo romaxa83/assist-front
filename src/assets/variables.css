@@ -19,6 +19,10 @@
     /* Input */
     --input-shadow: var(--base_black);
 
+    /* Tooltip */
+    --tooltip-background-color: var(--base_black);
+    --tooltip-color: var(--base_yellow);
+
     /* Button */
     --input-shadow: var(--base_black);
 
@@ -62,6 +66,8 @@
     --btn-action-active-background: var(--base_black);
     --btn-action-active-color: var(--base_yellow);
     --btn-action-active-border-color: var(--base_black);
+    --btn-action-disabled-background: var(--base_white);
+    --btn-action-disabled-color: var(--base_grey);
 
     /* Pagination */
     --pagination-item-background-color: var(--base_light_yellow);

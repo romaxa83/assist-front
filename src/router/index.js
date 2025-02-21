@@ -5,6 +5,7 @@ import MainPage from "@/pages/MainPage.vue";
 import NotePage from "@/pages/public/notes/NotePage.vue";
 import PrivateTagsPage from "@/pages/private/tags/TagsPage.vue";
 import PrivateNotesPage from "@/pages/private/notes/NotesPage.vue";
+import PrivateNotePage from "@/pages/private/notes/NotePage.vue";
 import PrivateNoteCreatePage from "@/pages/private/notes/NoteCreatePage.vue";
 import PrivateNoteUpdatedPage from "@/pages/private/notes/NoteUpdatePage.vue";
 import NotFoundPage from "@/pages/error/NotFoundPage.vue";
@@ -37,6 +38,12 @@ const routes = [
     path: '/admin/notes/update/:id',
     name: 'admin-notes-update',
     component: PrivateNoteUpdatedPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/notes/:id',
+    name: 'admin-notes-show',
+    component: PrivateNotePage,
     meta: { requiresAuth: true }
   },
   // Маршрут для страницы 404

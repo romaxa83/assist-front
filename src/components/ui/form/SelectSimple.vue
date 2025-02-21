@@ -1,6 +1,6 @@
 <template>
-
   <div class="form-group">
+
     <label
         v-if="label"
         :for="id"
@@ -25,11 +25,7 @@
       </option>
     </select>
 
-
   </div>
-
-
-
 </template>
 
 <script>

@@ -174,7 +174,6 @@ export default {
   },
 
   methods: {
-
     handleRemove(tag) {
       this.tagToDelete = tag;
 
@@ -196,7 +195,6 @@ export default {
     },
 
     async sendTag() {
-
       try {
         const token = localStorage.getItem('authToken');
 
@@ -216,8 +214,11 @@ export default {
           }
 
         } else {
+
+          console.log('CREATE', this.tag);
+
           const response = await axios.post(
-              'http://192.168.193.1/private/api/tags',
+              'http://192.168.193.1/api/private/tags',
               this.tag,
               {headers: {Authorization: `Bearer ${token}`,}}
           );

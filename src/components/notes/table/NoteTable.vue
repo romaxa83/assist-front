@@ -32,7 +32,6 @@
     <tr
         v-for="note in notes"
         :key="note.id"
-        :note="note"
         class="table-warning"
     >
       <th scope="row">{{ note.id }}</th>
@@ -44,11 +43,21 @@
       <td>{{ note.created_at }}</td>
       <td class="text-end actions-column">
         <div class="d-flex flex-nowrap align-items-center">
-          <!-- Кнопка редактирования -->
+
           <small-button
               classCustom="me-2"
-              title="Show"
+              @click="toNotePrivatePage(note)"
+              title="Show details"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </small-button>
+
+          <small-button
+              classCustom="me-2"
               @click="toNotePage(note)"
+              :disabled="!note.meta.actions.show.can"
+              :tooltip="note.meta.actions.show.can ? '' : note.meta.actions.show.reason[0]"
+              title="Show"
           >
             <i class="fa-solid fa-eye"></i>
           </small-button>
@@ -57,13 +66,17 @@
               classCustom="me-2"
               title="Edit"
               @click="toUpdatePage(note)"
+              :disabled="!note.meta.actions.edit.can"
+              :tooltip="note.meta.actions.edit.can ? '' : note.meta.actions.edit.reason[0]"
           >
             <i class="fa-solid fa-pen"></i>
           </small-button>
 
           <small-button
               title="Delete"
-              @click="$emit('remove', note)"
+              @click="removeNote(note)"
+              :disabled="!note.meta.actions.delete.can"
+              :tooltip="note.meta.actions.delete.can ? '' : note.meta.actions.delete.reason[0]"
           >
             <i class="fa-solid fa-trash"></i>
           </small-button>
@@ -98,6 +111,9 @@ export default {
     },
   },
   setup(props, { emit }) {
+
+    // console.log(props.notes);
+
     const router = useRouter();
     const route = useRoute();
 
@@ -165,9 +181,9 @@ export default {
       }
     });
 
-
     const toUpdatePage = (note) => router.push(`/admin/notes/update/${note.id}`);
     const toNotePage = (note) => router.push(`/notes/${note.slug}`);
+    const toNotePrivatePage = (note) => router.push(`/admin/notes/${note.id}`);
 
     const removeNote = async (note) => {
       try {
@@ -187,6 +203,7 @@ export default {
       handleSort,
       toUpdatePage,
       toNotePage,
+      toNotePrivatePage,
       removeNote
     }
   },

@@ -102,8 +102,6 @@
           type="button"
           @click="removeLink"
       ><i class="fa-solid fa-unlink"></i></button>
-
-
     </div>
 
 
@@ -181,8 +179,6 @@ export default {
       }
     });
 
-
-
     // Обновление редактора при изменении modelValue снаружи
     watch(() => props.modelValue, (newValue) => {
           if (editor.value && editor.value.getHTML() !== newValue) {
@@ -241,7 +237,6 @@ export default {
     const removeLink = () => {
       editor.value?.chain().focus().unsetLink().run();
     };
-
 
     return {
       editor,

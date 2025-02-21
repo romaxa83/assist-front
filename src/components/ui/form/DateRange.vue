@@ -9,7 +9,6 @@
       {{ label }}
     </label>
 
-
     <date-picker
         v-model:value="internalModelValue"
         :placeholder="placeholder"
@@ -23,7 +22,6 @@ import { ref, watch } from "vue";
 import DatePicker from 'vue-datepicker-next';
 import 'vue-datepicker-next/index.css';
 
-
 export default {
   name: "DateRange",
   components: { DatePicker },
@@ -31,8 +29,7 @@ export default {
     modelValue: {
       type: [Array, String, Number, Date], // Тип значения для диапазона или даты
       required: false,
-      default: () => [null, null]
-      ,
+      default: () => [null, null],
     },
     label: {
       type: String,
@@ -49,7 +46,7 @@ export default {
 
   },
   setup(props, { emit }) {
-// Создаем реактивное хранилище для внутреннего значения
+    // Создаем реактивное хранилище для внутреннего значения
     const internalModelValue = ref(props.modelValue);
 
     // Watcher для синхронизации `modelValue` с внутренним значением
@@ -82,4 +79,29 @@ export default {
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
+
+
+.mx-datepicker {
+  width: 100% !important; /* Компонент занимает всю ширину родителя */
+  max-width: 100%; /* Предотвращаем выход за границы */
+}
+
+.mx-input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Увеличиваем высоту обёртки иконки календаря (если нужно) */
+.mx-icon-calendar {
+  height: 50px;
+  line-height: 50px;
+}
+
+.mx-input {
+  width: 100%; /* Сам инпут занимает ширину родителя */
+  box-sizing: border-box; /* Учитываем padding внутри ширины */
+}
+
 </style>

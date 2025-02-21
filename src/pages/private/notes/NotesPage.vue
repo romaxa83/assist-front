@@ -40,26 +40,19 @@
                 v-model="selectedRange"
             />
           </div>
-
-          <div class="col-md-3">
-            <div class="row justify-content-end">
-              <!-- Select for perPage -->
-              <div class="col-md-10">
-                <select-simple
-                    v-model="selectedPerPage"
-                    :options="optionsPerPage"
-                />
-              </div>
-              <!-- Clear filter -->
-              <div class="col-md-2">
-                <small-button
-                    title="Clear filter"
-                    @click="clearFilter"
-                >
-                  <i class="fa fa-times"></i>
-                </small-button>
-              </div>
-            </div>
+          <div class="col-md-2">
+              <select-simple
+                  v-model="selectedPerPage"
+                  :options="optionsPerPage"
+              />
+          </div>
+          <div class="col-md-1">
+            <small-button
+                title="Clear filter"
+                @click="clearFilter"
+            >
+              <i class="fa fa-times"></i>
+            </small-button>
           </div>
         </div>
         <!-- Table block -->

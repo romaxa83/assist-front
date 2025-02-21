@@ -90,7 +90,7 @@ export default {
       try {
         const tags = selectedTags.value.map(tag => tag.value);
 
-        await axios.post(`/api/notes`, {
+        await axios.post(`/api/private/notes`, {
           title: title.value,
           text: text.value,
           tags: selectedTags.value

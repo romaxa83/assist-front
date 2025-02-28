@@ -63,7 +63,7 @@ export default {
   setup(props, context) {
     useBreadcrumbs([
       { label: 'Tags', href: '/admin/tags' },
-      { label: 'Notes', href: '/admin/notes' },
+      { label: 'Notes (private)', href: '/admin/notes' },
       { label: 'Create Notes', href: '' }
     ]);
 

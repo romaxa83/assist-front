@@ -46,11 +46,12 @@ export default {
     handleClick(event) {
       // Если кнопка отключена, предотвращаем событие клика
       if (this.disabled) {
-        console.log("CLICK DISABLED")
         event.preventDefault();
         event.stopPropagation();
         return;
       }
+
+      event.stopPropagation();
       // Если не отключена, просто передаем событие вверх
       this.$emit("click", event);
     },
@@ -60,13 +61,11 @@ export default {
 </script>
 
 <style scoped>
-
 /* Контейнер для кнопки и тултипа */
 .small-button-wrapper {
   position: relative;
   display: inline-block;
 }
-
 
 .small-action-btn {
   background-color: var(--btn-action-background);
@@ -76,7 +75,6 @@ export default {
   background-color: var(--btn-action-hover-background);
   color: var(--btn-action-hover-color);
 }
-
 
 /* Оформление для "задизейбленных" кнопок */
 .small-action-btn[aria-disabled="true"] {

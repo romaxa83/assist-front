@@ -11,7 +11,9 @@
           <li
               v-if="isAuthenticated"
           >
-            <router-link to="/admin/notes">
+            <router-link
+                class="nav-link px-2 custom_nav_link"
+                to="/admin/notes">
               Notes
             </router-link>
           </li>
@@ -27,22 +29,19 @@
           </custom-button>
         </div>
 
-
-
         <div
             v-if="isAuthenticated"
             class="dropdown text-end"
         >
           <a href="#"
-             class="d-block link-dark text-decoration-none dropdown-toggle text-warning"
-             id="dropdownUser1"
+             class="d-block link-dark text-decoration-none dropdown-toggle custom_nav_link"
+             id="userActions"
              data-bs-toggle="dropdown"
              aria-expanded="false"
           >
             ADMIN
           </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-
+          <ul class="dropdown-menu text-small" aria-labelledby="userActions" style="">
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
@@ -125,10 +124,6 @@
       </div>
 
     </div>
-
-
-
-
   </header>
 </template>
 
@@ -251,5 +246,15 @@ export default {
   color: black !important;
   font-size: 1rem !important;
 }
+
+.custom_nav_link {
+  color: var(--link-nav-color) !important; /* Желтый цвет текста по умолчанию */
+  transition: color 0.3s ease; /* Плавный переход цвета, если хотите */
+}
+
+.custom_nav_link:hover {
+  color: var(--link-nav-hover-color) !important; /* Белый цвет текста при наведении */
+}
+
 
 </style>

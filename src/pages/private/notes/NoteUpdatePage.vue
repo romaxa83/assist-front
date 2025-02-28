@@ -31,17 +31,11 @@
               />
 
             </div>
-            <custom-button
-                @click="updateNote"
-            >
-              Update
-            </custom-button>
           </form>
         </div>
 
       </div>
       <div class="col-md-2">
-
         <div class="mb-3">
           <select-simple
               v-model="status"
@@ -52,7 +46,13 @@
           />
         </div>
 
-
+        <div class="mb-3 sticky-top">
+          <custom-button
+              @click="updateNote"
+          >
+            Update
+          </custom-button>
+        </div>
       </div>
     </div>
 
@@ -80,7 +80,7 @@ export default {
 
     useBreadcrumbs([
       { label: 'Tags', href: '/admin/tags' },
-      { label: 'Notes', href: '/admin/notes' },
+      { label: 'Notes (private)', href: '/admin/notes' },
       { label: `Update Notes`, href: '' }
     ]);
 

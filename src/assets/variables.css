@@ -12,6 +12,10 @@
     --link-color: var(--base_light_blue);
     --link_hover-color: var(--base_blue);
 
+    /* Nav Link */
+    --link-nav-color: var(--base_yellow);
+    --link-nav-hover-color: var(--base_white);
+
     /* Tag for note */
     --tag-for-note-background-color: var(--base_yellow);
     --tag-for-note-color: var(--base_black);

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
 
-    <div class="accordion" id="accordionPanelsPrivateNote">
+    <div class="accordion pt-3" id="accordionPanelsPrivateNote">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
           <button
@@ -106,7 +106,7 @@ export default {
   },
   setup(props) {
     const breadcrumbs = ref([
-      { label: "Main", href: "/" },
+      { label: "Notes(private)", href: "/admin/notes" },
     ]);
     useBreadcrumbs(breadcrumbs);
 
@@ -124,8 +124,8 @@ export default {
         // Обновляем хлебные крошки с учётом нового заголовка
         breadcrumbs.value = [
           ...breadcrumbs.value,
-          { label: note.value.title, href: `/admin/notes/update/${noteId}` },
-          { label: "/", href: "" },
+          { label: 'Update', href: `/admin/notes/update/${noteId}` },
+          { label: note.value.title, href: "" },
         ];
 
       } catch (error) {

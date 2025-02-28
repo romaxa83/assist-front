@@ -7,20 +7,11 @@
       </th>
       <th scope="col">Title</th>
       <th scope="col">Status</th>
-      <th scope="col">
-        <sort-column
-            field="weight"
-            :activeSort="activeSort"
-            @sort="handleSort"
-        >
-          Weight
-        </sort-column>
-      </th>
+      <th scope="col">Weight</th>
       <th scope="col">
         <sort-column
             field="created_at"
-            :activeSort="activeSort"
-            @sort="handleSort"
+            :activeSort="{ field: 'created_at', desc: 'asc' }"
         >
           Created
         </sort-column>
@@ -111,85 +102,22 @@ export default {
     },
   },
   setup(props, { emit }) {
-
-    // console.log(props.notes);
-
     const router = useRouter();
     const route = useRoute();
 
-    // Дефолтная сортировка
-    const defaultSort = [{ field: "created_at", direction: "desc" }];
-    const activeSort = ref([...defaultSort]);
-
-    // Обновление query параметров (в формате sort[]=value)
-    const updateQueryParams = () => {
-      const query = { ...route.query };
-
-      // Обновляем массив `sort` в query как массив
-      query.sort = activeSort.value.map(
-          ({ field, direction }) => `${field}-${direction}`
-      );
-
-      router
-          .push({ query })
-          .catch((err) =>
-              console.error("Ошибка обновления query-параметров:", err)
-          );
-    };
-
-    // Обработка события сортировки
-    const handleSort = ({ field, direction }) => {
-      const existingIndex = activeSort.value.findIndex((sort) => sort.field === field);
-
-      if (existingIndex !== -1) {
-        // Если поле существует, обновляем его направление
-        activeSort.value[existingIndex].direction = direction;
-      } else {
-        // Если поле не существует, добавляем его в массив
-        activeSort.value.push({ field, direction });
-      }
-
-      updateQueryParams(); // Обновляем query параметры
-      emit("sortChanged", activeSort.value); // Передаем наружу
-    };
-
-    // Синхронизация с query параметрами
-    watch(
-        () => route.query.sort,
-        (newSort) => {
-          if (!newSort) {
-            activeSort.value = [...defaultSort];
-            return;
-          }
-
-          // Обрабатываем массив sort=[]
-          activeSort.value = Array.isArray(newSort)
-              ? newSort.map((sortItem) => {
-                const [field, direction] = sortItem.split("-");
-                return { field, direction };
-              })
-              : [];
-        },
-        { immediate: true }
-    );
-
-    // Устанавливаем дефолтную сортировку при загрузке
-    onMounted(() => {
-      if (!route.query.sort) {
-        activeSort.value = [...defaultSort];
-        // updateQueryParams();
-      }
-    });
 
     const toUpdatePage = (note) => router.push(`/admin/notes/update/${note.id}`);
     const toNotePage = (note) => router.push(`/notes/${note.slug}`);
     const toNotePrivatePage = (note) => router.push(`/admin/notes/${note.id}`);
 
     const removeNote = async (note) => {
+
       try {
-        await axios.delete(`api/private/notes/${note.id}`,{
+        const res = await axios.delete(`api/private/notes/${note.id}`,{
           withAuth: true,
         });
+
+        console.log('Remove note',res)
 
         router.push('/admin/notes');
       } catch (error) {
@@ -198,9 +126,6 @@ export default {
     }
 
     return {
-      defaultSort,
-      activeSort,
-      handleSort,
       toUpdatePage,
       toNotePage,
       toNotePrivatePage,

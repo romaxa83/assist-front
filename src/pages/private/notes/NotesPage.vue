@@ -59,7 +59,6 @@
         <div class="row table_container">
           <note-table
               :notes="notes"
-              @remove="handleRemove"
           />
         </div>
         <!-- Pagination block -->
@@ -151,20 +150,6 @@ export default {
     });
 
     const toCreatePage = () => router.push('/admin/notes/create');
-
-    const handleRemove = async (note) => {
-      try {
-        // Удаление заметки на сервере
-        await axios.delete(`/api/notes/${note.id}`, {
-          withAuth: true,
-        });
-
-        // Обновление списка заметок (удаление локально)
-        notes.value = notes.value.filter((n) => n.id !== note.id);
-      } catch (error) {
-        console.error("Ошибка при удалении заметки:", error);
-      }
-    };
 
     const clearFilter = () => {
       selectedStatus.value = "";
@@ -281,7 +266,6 @@ export default {
       notes,
       meta,
       toCreatePage,
-      handleRemove,
       clearFilter,
       selectedPerPage,
       optionsPerPage,

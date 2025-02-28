@@ -1,11 +1,11 @@
 <template>
-  <div class="form-group container-tiptap-editor">
+  <div class="form-group container-tiptap-editor" ref="editorContainer">
     <label :for="id" class="form-label">
       {{ label }}
     </label>
 
     <!-- Панель инструментов -->
-    <div class="tiptap-toolbar" v-if="editor">
+    <div class="tiptap-toolbar" v-if="editor" ref="toolbarRef">
       <button
           type="button"
           @click="toggleBold"
@@ -104,9 +104,10 @@
       ><i class="fa-solid fa-unlink"></i></button>
     </div>
 
+    <div class="toolbar-placeholder" ref="placeholderRef"></div>
 
     <!-- Контент редактора -->
-    <div class="tiptap-editor">
+    <div class="tiptap-editor" ref="editorRef">
       <editor-content :editor="editor" />
     </div>
 
@@ -114,15 +115,12 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-
+import { ref, watch, onMounted, onBeforeUnmount, nextTick} from "vue";
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import TextAlign from '@tiptap/extension-text-align';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
-
-
 
 export default {
   name: "TiptapEditor",
@@ -147,6 +145,35 @@ export default {
   setup(props, { emit }) {
     const editor = ref(null);
 
+    const placeholderRef = ref(null); // Ссылка на placeholder
+    const toolbarRef = ref(null); // Toolbar (для sticky поведения)
+    const editorContainer = ref(null); // Ссылка на контейнер редактора
+    let observer = null; // Сохраняем экземпляр IntersectionObserver
+
+
+    // Функция для обработки пересечения (sticky для тулбара)
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          // Если placeholder выходит из зоны видимости (фиксируем тулбар)
+          if (toolbarRef.value && editorContainer.value) {
+            const editorRect = editorContainer.value.getBoundingClientRect(); // Получаем размеры редактора
+
+            toolbarRef.value.classList.add("sticky");
+            toolbarRef.value.style.width = `${editorRect.width}px`; // Ограничиваем ширину тулбара
+            toolbarRef.value.style.left = `${editorRect.left}px`; // Устанавливаем позицию относительно окна
+          }
+        } else {
+          // Сбрасываем стили, если placeholder возвращается в зону видимости
+          if (toolbarRef.value) {
+            toolbarRef.value.classList.remove("sticky");
+            toolbarRef.value.style.width = "";
+            toolbarRef.value.style.left = "";
+          }
+        }
+      });
+    };
+
     // Инициализация редактора
     onMounted(() => {
       editor.value = new Editor({
@@ -163,19 +190,36 @@ export default {
               rel: 'noopener',
             },
           }),
-
-
         ],
         onUpdate: ({ editor }) => {
           emit("update:modelValue", editor.getHTML());
         },
       });
+
+      // Настраиваем IntersectionObserver
+      const observer = new IntersectionObserver(handleIntersection, {
+        root: null, // Отслеживаем относительно области просмотра (viewport)
+        rootMargin: "0px", // Можно добавить отступ для более раннего срабатывания
+        threshold: 0, // Срабатывает, когда элемент пересекает границу (0 - как только он касается области просмотра)
+      });
+
+      // Подключаем наблюдатель к placeholder
+      if (placeholderRef.value) {
+        observer.observe(placeholderRef.value);
+      }
     });
 
-    // Уничтожение редактора при удалении компонента
     onBeforeUnmount(() => {
+      // Уничтожение редактора при удалении компонента
       if (editor.value) {
         editor.value.destroy();
+      }
+      // Отключаем наблюдатель
+      if (observer && placeholderRef.value) {
+        observer.unobserve(placeholderRef.value);
+      }
+      if (observer) {
+        observer.disconnect();
       }
     });
 
@@ -240,6 +284,9 @@ export default {
 
     return {
       editor,
+      placeholderRef,
+      toolbarRef,
+      editorContainer,
       toggleBold,
       toggleItalic,
       toggleUnderline,
@@ -265,17 +312,17 @@ export default {
   flex-direction: column;
   gap: 10px;
 }
-
 /* Toolbar */
 .tiptap-toolbar {
   display: flex;
-  flex-wrap: wrap; /* Позволяет кнопкам переноситься на новые строки */
-  gap: 8px; /* Промежуток между кнопками */
+  flex-wrap: wrap;
+  gap: 8px;
   background-color: #eae3e3;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease, left 0.3s ease; /* Добавляем плавность изменений */
 }
 
 .tiptap-toolbar button {
@@ -300,6 +347,16 @@ export default {
   background-color: var(--btn-action-active-background);
   color: var(--btn-action-active-color);
   border-color: var(--btn-action-active-border-color);
+}
+
+.tiptap-toolbar.sticky {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: auto; /* Ширина задается через JS */
+  left: auto; /* Позиция задаётся через JS */
+  max-width: 100%; /* На случай мобильных экранов */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Контейнер редактора */

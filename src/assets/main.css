@@ -1,4 +1,5 @@
 @import url('variables.css');
+@import url('table.css');
 
 @import 'bootstrap/dist/css/bootstrap.css';
 @import "@vueform/multiselect/themes/default.css";
@@ -26,18 +27,6 @@ select:focus,
     border-color: var(--input-shadow); /* Новый цвет рамки */
 }
 
-/* Таблицы */
-/* Общее выравнивание содержимого по вертикали для всех ячеек */
-table.table tbody tr td,
-table.table tbody tr th {
-    vertical-align: middle; /* Или "top", если нужно выравнивание по верхнему краю */
-}
-
-/* Уменьшение внутренних отступов в ячейках таблицы */
-table.table td,
-table.table th {
-    padding: 4px 8px; /* Внутренние отступы (по умолчанию в Bootstrap: 0.75rem) */
-}
 
 /* ---------------------------------------------------------------- */
 /* Переопределение стилей для select из пакета @vueform/multiselect */

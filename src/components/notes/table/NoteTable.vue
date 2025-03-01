@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover">
+  <table class="custom-table">
     <thead>
     <tr>
       <th scope="col">
@@ -23,7 +23,7 @@
     <tr
         v-for="note in notes"
         :key="note.id"
-        class="table-warning"
+        :class="note.meta.warning.has ? 'custom-row-warning' : 'custom-row'"
     >
       <th scope="row">{{ note.id }}</th>
       <td>{{ note.title }}</td>
@@ -138,8 +138,6 @@ export default {
           withAuth: true,
         });
 
-        console.log('Remove note',res)
-
         router.push('/admin/notes');
       } catch (error) {
         console.error("Ошибка при remove:", error);
@@ -154,7 +152,9 @@ export default {
             { status: status.value}, {withAuth: true,}
         );
 
-        console.log(`Note ID: ${note.id} status updated to ${status}`);
+        // Вызываем событие для родительского компонента
+        emit("update-status", { noteId: note.id, newStatus: status.label });
+
         note.status = status.label; // Локальное обновление статуса для текущей заметки
       } catch (error) {
         console.error("Ошибка при обновлении статуса:", error);
@@ -200,5 +200,8 @@ export default {
   background-color: var(--btn-action-hover-background);
   color: var(--btn-action-hover-color);
 }
+
+
+
 
 </style>

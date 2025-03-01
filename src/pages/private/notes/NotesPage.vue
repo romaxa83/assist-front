@@ -59,6 +59,7 @@
         <div class="row table_container">
           <note-table
               :notes="notes"
+              @update-status="handleStatusUpdate"
           />
         </div>
         <!-- Pagination block -->
@@ -185,6 +186,28 @@ export default {
       await fetching({ page, per_page: perPage });
     };
 
+    const handleStatusUpdate = async (noteId, status) => {
+      // Считываем параметры из URL
+      const {
+        per_page: perPageFromUrl,
+        status: statusFromUrl,
+        start_date,
+        end_date,
+        search_title,
+        page,
+      } = route.query;
+
+      const params = {
+        per_page: Number(perPageFromUrl) || selectedPerPage.value,
+        status: statusFromUrl || selectedStatus.value,
+        start_date: start_date ? new Date(start_date).toISOString().split("T")[0] : undefined,
+        end_date: end_date ? new Date(end_date).toISOString().split("T")[0] : undefined,
+        search_title: search_title || search.value || undefined,
+        page: page || 1, // Если страница не указана, устанавливаем первую
+      };
+
+      await fetching(params);
+    }
 
     onMounted(async () => {
       // Считываем параметры из URL
@@ -273,7 +296,8 @@ export default {
       selectedStatus,
       optionsStatuses,
       selectedRange,
-      search
+      search,
+      handleStatusUpdate
     }
   },
 }

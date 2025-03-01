@@ -10,7 +10,6 @@
 
 <script>
 
-import {useNotes} from "@/hooks/notes/public/useNotes";
 import NoteItem from "@/components/notes/NoteItem.vue";
 
 export default {
@@ -18,21 +17,14 @@ export default {
   components: {
     NoteItem,
   },
-  data() {
-    return {
-      notes: [],
-    }
-  },
-  setup() {
-    const {notes} = useNotes();
-
-    return {
-      notes
-    }
+  props: {
+    notes: {
+      type: Array,
+      required: true,
+    },
   },
 }
 </script>
-
 
 <style scoped>
 

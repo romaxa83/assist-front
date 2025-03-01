@@ -23,7 +23,7 @@ export function useNotes(params) {
         }
     }
 
-    onMounted(fetching);
+    // onMounted(fetching);
 
     return {
         notes,

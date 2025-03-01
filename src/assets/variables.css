@@ -20,6 +20,19 @@
     --tag-for-note-background-color: var(--base_yellow);
     --tag-for-note-color: var(--base_black);
 
+    /* Tag*/
+    --tag-background-color: var(--base_yellow);
+    --tag-color: var(--base_black);
+    --tag-border-color: var(--base_yellow);
+
+    --tag-hover-background-color: var(--base_black);
+    --tag-hover-color: var(--base_yellow);
+    --tag-hover-border-color: var(--base_black);
+
+    --tag-active-background-color: var(--base_black);
+    --tag-active-color: var(--base_yellow);
+    --tag-active-border-color: var(--base_black);
+
     /* Input */
     --input-shadow: var(--base_black);
 

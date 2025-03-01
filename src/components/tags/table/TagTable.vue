@@ -5,7 +5,8 @@
       <th scope="col">ID</th>
       <th scope="col">Title</th>
       <th scope="col">Slug</th>
-      <th scope="col">Weight</th>
+      <th scope="col">Public attach</th>
+      <th scope="col">Private attach</th>
       <th scope="col" class="text-center actions-column">Action</th>
     </tr>
     </thead>
@@ -20,7 +21,8 @@
       <th scope="row">{{ tag.id }}</th>
       <td>{{ tag.name }}</td>
       <td>{{ tag.slug }}</td>
-      <td>{{ tag.weight }}</td>
+      <td>{{ tag.public_attached }}</td>
+      <td>{{ tag.private_attached }}</td>
       <td class="d-flex justify-content-end">
         <div class="d-flex flex-nowrap align-items-center">
           <small-button

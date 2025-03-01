@@ -28,7 +28,28 @@
       <th scope="row">{{ note.id }}</th>
       <td>{{ note.title }}</td>
       <td>
-        <note-status :status="note.status"/>
+<!--        <note-status :status="note.status"/>-->
+
+        <div class="dropdown">
+          <button
+              class="btn btn-sm dropdown-toggle dropdownNoteStatusButton"
+              type="button"
+              id="dropdownNoteStatusButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+          >
+            {{note.status.toUpperCase()}}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownNoteStatusButton">
+            <li
+                v-for="statusOption in note.meta.statuses"
+                :key="statusOption.value"
+                @click="updateNoteStatus(note, statusOption)"
+            >
+              <a class="dropdown-item" href="#">{{ statusOption.label }}</a>
+            </li>
+          </ul>
+        </div>
       </td>
       <td>{{ note.weight }}</td>
       <td>{{ note.created_at }}</td>
@@ -71,6 +92,7 @@
           >
             <i class="fa-solid fa-trash"></i>
           </small-button>
+
         </div>
       </td>
     </tr>
@@ -80,7 +102,7 @@
 </template>
 
 <script>
-import { computed, ref, watch, onMounted } from "vue";
+
 import { useRouter, useRoute } from "vue-router";
 import axios from "@/services/axios";
 import SortColumn from "@/components/ui/table/SortColumn.vue";
@@ -105,7 +127,6 @@ export default {
     const router = useRouter();
     const route = useRoute();
 
-
     const toUpdatePage = (note) => router.push(`/admin/notes/update/${note.id}`);
     const toNotePage = (note) => router.push(`/notes/${note.slug}`);
     const toNotePrivatePage = (note) => router.push(`/admin/notes/${note.id}`);
@@ -125,11 +146,27 @@ export default {
       }
     }
 
+    // Метод для обновления статуса заметки
+    const updateNoteStatus = async (note, status) => {
+
+      try {
+        await axios.post(`api/private/notes/${note.id}/set-status`,
+            { status: status.value}, {withAuth: true,}
+        );
+
+        console.log(`Note ID: ${note.id} status updated to ${status}`);
+        note.status = status.label; // Локальное обновление статуса для текущей заметки
+      } catch (error) {
+        console.error("Ошибка при обновлении статуса:", error);
+      }
+    };
+
     return {
       toUpdatePage,
       toNotePage,
       toNotePrivatePage,
-      removeNote
+      removeNote,
+      updateNoteStatus
     }
   },
 }
@@ -145,6 +182,23 @@ export default {
 /* Дополнительно стилизуйте кнопки, если они добавляют пустоту */
 .actions-column .btn {
   margin: 0; /* Убираем лишний отступ между кнопками */
+}
+
+.dropdownNoteStatusButton {
+  background-color: var(--btn-action-background);
+  color: var(--btn-action-color);
+  border: none;
+  padding: 0.5rem 0.5rem;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdownNoteStatusButton:hover {
+  background-color: var(--btn-action-hover-background);
+  color: var(--btn-action-hover-color);
 }
 
 </style>

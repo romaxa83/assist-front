@@ -21,8 +21,6 @@ export default {
           return "note-status-draft";
         case "moderation":
           return "note-status-moderation";
-        case "moderated":
-          return "note-status-moderated";
         case "public":
           return "note-status-public";
         case "private":
@@ -57,12 +55,6 @@ export default {
   background-color: var(--status-moderation-background-color);
   color: var(--status-moderation-color);
   border: 1px solid var(--status-moderation-border-color);
-}
-
-.note-status-moderated {
-  background-color: var(--status-moderated-background-color);
-  color: var(--status-moderated-color);
-  border: 1px solid var(--status-moderated-border-color);
 }
 
 .note-status-public {

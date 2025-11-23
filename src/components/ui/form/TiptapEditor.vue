@@ -53,6 +53,11 @@
       >H6</button>
       <button
           type="button"
+          @click="toggleBlockquote"
+          :class="{ active: editor.isActive('blockquote') }"
+       ><i class="fas fa-quote-left blockquote-icon"></i></button>
+      <button
+          type="button"
           @click="toggleCode"
           :class="{ active: editor.isActive('code') }"
       ><i class="fa-solid fa-code"></i></button>
@@ -259,6 +264,9 @@ export default {
     const toggleHeading = (level) => {
       editor.value?.chain().focus().toggleHeading({ level }).run();
     };
+    const toggleBlockquote = () => {
+      editor.value?.chain().focus().toggleBlockquote().run();
+    };
 
     const toggleOrderList = () => {
       editor.value?.chain().focus().toggleOrderedList().run();
@@ -296,6 +304,7 @@ export default {
       toggleCodeBlock,
       toggleOrderList,
       toggleBulletList,
+      toggleBlockquote,
       setTextAlign,
       addLink,
       removeLink,

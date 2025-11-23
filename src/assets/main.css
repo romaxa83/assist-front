@@ -1,5 +1,6 @@
 @import url('variables.css');
 @import url('table.css');
+@import url('note.css');
 
 @import 'bootstrap/dist/css/bootstrap.css';
 @import "@vueform/multiselect/themes/default.css";

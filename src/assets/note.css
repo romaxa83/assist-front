@@ -1,0 +1,47 @@
+
+/* Цитат в заметках*/
+.text-block blockquote.blockquote-update {
+    border: 2px solid var(--blockquote-update-border-color) !important;
+    color: var(--blockquote-update-color);
+    background-color: var(--blockquote-update-background-color);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.text-block blockquote.blockquote-update p {
+    margin: 0;
+}
+
+.text-block blockquote.blockquote-update::before {
+    content: "⚠️";
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.text-block blockquote.blockquote-danger {
+    background-color: var(--blockquote-danger-background-color);
+    border: 2px solid var(--blockquote-danger-border-color) !important;
+    color: var(--blockquote-danger-color);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.text-block blockquote.blockquote-danger p {
+    margin: 0;
+}
+
+.text-block blockquote.blockquote-danger::before {
+    content: "⚠️";
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 20px;
+}

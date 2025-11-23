@@ -65,6 +65,17 @@ table.table th {
     color: var(--tabel-row-warning-hover-color);
 }
 
+.custom-row-public {
+    background-color: var(--tabel-row-public-background-color);
+    color: var(--tabel-row-public-color);
+    transition: background-color 0.3s ease;
+}
+
+.custom-row-public:hover {
+    background-color: var(--tabel-row-public-hover-background-color);
+    color: var(--tabel-row-public-hover-color);
+}
+
 /* Стили для заголовков таблицы */
 .custom-table th {
     font-weight: bold;

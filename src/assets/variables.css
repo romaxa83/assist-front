@@ -4,7 +4,8 @@
 
     --base_yellow: #ffbf12;
     --base_light_yellow: #fff3cd;
-    --base_black: #222020;
+    --base_black: #191714;
+    --base_black_light: #2b2b2b;
     --base_grey: #6c757d;
     /*--base_light_grey: #c3d4df;*/
     --base_light_grey: #dee2e6;
@@ -114,7 +115,27 @@
 
     --tabel-row-warning-hover-background-color: var(--base_red);
     --tabel-row-warning-hover-color: var(--base_black);
+
+    /* row public */
+    --tabel-row-public-background-color: var(--base_white);
+    --tabel-row-public-color: var(--base_black);
+    --tabel-row-public-border-background-color: var(--base_light_grey);
+
+    --tabel-row-public-hover-background-color: var(--base_white);
+    --tabel-row-public-hover-color: var(--base_black);
     /* -------------------------------------------------- */
+
+    /* -------------------------------------------------- */
+    /* Note blockquote */
+    --blockquote-danger-background-color: var(--base_red_dark);
+    --blockquote-danger-color: var(--base_black);
+    --blockquote-danger-border-color: var(--base_black);
+
+    --blockquote-update-background-color: var(--base_black_light);
+    --blockquote-update-color: var(--base_white);
+    --blockquote-update-border-color: var(--base_white);
+    /* -------------------------------------------------- */
+
     /* Pagination */
     --pagination-item-background-color: var(--base_light_yellow);
     --pagination-item-color: var(--base_black);

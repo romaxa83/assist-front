@@ -6,7 +6,7 @@
 
     <tags-row-for-note :tags="note.tags || []" size="large"/>
 
-    <article class="blog-post border-bottom">
+    <article class="note-text border-bottom">
       <div
           v-for="(block, index) in note.text_blocks"
           :key="index"
@@ -14,6 +14,13 @@
         <!-- Текстовые блоки -->
         <div
             v-if="block.type === 'text'"
+            v-html="block.content"
+            class="text-block"
+        ></div>
+
+        <!-- Текстовые блоки цитат или вахного обновления-->
+        <div
+            v-if="block.type === 'quote'"
             v-html="block.content"
             class="text-block"
         ></div>

@@ -23,7 +23,11 @@
     <tr
         v-for="note in notes"
         :key="note.id"
-        :class="note.meta.warning.has ? 'custom-row-warning' : 'custom-row'"
+        :class="{
+            'custom-row-warning': note.meta.warning.has,
+            'custom-row-public': note.status === 'public',
+            'custom-row': !note.meta.warning.has && note.status !== 'public'
+        }"
     >
       <th scope="row">{{ note.id }}</th>
       <td>{{ note.title }}</td>
@@ -107,13 +111,11 @@ import { useRouter, useRoute } from "vue-router";
 import axios from "@/services/axios";
 import SortColumn from "@/components/ui/table/SortColumn.vue";
 import SmallButton from "@/components/ui/button/SmallButton.vue";
-import NoteStatus from "@/components/notes/table/NoteStatus.vue";
 
 
 export default {
   name: "NoteTable",
   components: {
-    NoteStatus,
     SmallButton,
     SortColumn
   },
